@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Marvex — Digital Consultancy</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --black:#050A05;--black2:#0B130B;--black3:#111A11;
+  --green:#0D5C2E;--green-mid:#147A3B;--green-light:#1A9E4C;
+  --green-glow:#22C55E;--green-pale:#0D2E18;--green-subtle:#0A1F10;
+  --cream:#E8EDE8;--cream2:#C8D4C8;--muted:#6B7D6B;--muted2:#4A5A4A;
+  --white:#F2F7F2;--radius:10px;--radius-lg:16px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Syne',sans-serif;background:var(--black);color:var(--cream);line-height:1.6;overflow-x:hidden}
+
+/* ═══════════════════════════════
+   LOADING SCREEN — clean fade, no progress bar
+═══════════════════════════════ */
+#loader{
+  position:fixed;inset:0;z-index:9999;
+  background:var(--black);
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+  transition:opacity .6s ease;
+}
+#loader.fade-out{opacity:0;pointer-events:none}
+#lCanvas{position:absolute;inset:0;width:100%;height:100%}
+
+.l-center{
+  position:relative;z-index:10;
+  display:flex;flex-direction:column;align-items:center;
+  gap:0;
+}
+
+.l-logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(72px,14vw,120px);
+  font-weight:600;
+  color:var(--white);
+  letter-spacing:-.04em;
+  line-height:1;
+  position:relative;
+  opacity:0;
+  animation:logoIn .8s cubic-bezier(.22,1,.36,1) .3s forwards, breathe 3s ease-in-out 1.2s infinite;
+}
+.l-logo em{font-style:normal;color:var(--green-glow)}
+@keyframes logoIn{
+  from{opacity:0;filter:blur(12px);transform:scale(.94)}
+  to{opacity:1;filter:blur(0);transform:scale(1)}
+}
+@keyframes breathe{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.018)}
+}
+
+.l-tag{
+  font-size:11px;font-weight:700;letter-spacing:.28em;
+  text-transform:uppercase;color:rgba(107,125,107,.8);
+  margin-top:1rem;
+  opacity:0;animation:tagIn .5s ease .9s forwards;
+}
+@keyframes tagIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+/* ═══════════════════════════════
+   NAVBAR
+═══════════════════════════════ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:0 5%;height:68px;
+  display:flex;align-items:center;justify-content:space-between;
+  transition:background .4s,border-color .4s;
+  border-bottom:1px solid transparent;
+}
+nav.scrolled{background:rgba(5,10,5,0.92);backdrop-filter:blur(16px);border-color:rgba(13,92,46,0.25)}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:var(--white);text-decoration:none;letter-spacing:-.02em}
+.nav-logo em{font-style:normal;color:var(--green-glow)}
+.nav-links{display:flex;align-items:center;gap:2.25rem;list-style:none}
+.nav-links a{text-decoration:none;font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);transition:color .2s}
+.nav-links a:hover{color:var(--white)}
+.nav-cta{background:var(--green);color:var(--white)!important;padding:9px 22px;border-radius:var(--radius);letter-spacing:.04em!important;transition:background .2s!important;border:1px solid var(--green-mid)}
+.nav-cta:hover{background:var(--green-mid)!important}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px}
+.hamburger span{width:24px;height:1.5px;background:var(--cream);border-radius:2px;transition:.3s}
+.mobile-menu{display:none;position:fixed;top:68px;left:0;right:0;background:var(--black2);border-bottom:1px solid rgba(13,92,46,0.3);padding:1.5rem 5%;flex-direction:column;gap:1rem;z-index:98}
+.mobile-menu a{text-decoration:none;font-size:14px;font-weight:600;color:var(--cream2);padding:.6rem 0;border-bottom:1px solid rgba(255,255,255,0.05);letter-spacing:.04em}
+.mobile-menu .m-cta{background:var(--green);color:var(--white);text-align:center;padding:13px;border-radius:var(--radius);border:none;font-size:14px;font-weight:600;font-family:'Syne',sans-serif;margin-top:.5rem;cursor:pointer;letter-spacing:.04em;text-transform:uppercase}
+
+/* ═══════════════════════════════
+   HERO
+═══════════════════════════════ */
+.hero{min-height:100vh;background:var(--black);display:flex;align-items:center;position:relative;overflow:hidden;padding:0 5%}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(13,92,46,0.12) 1px,transparent 1px),linear-gradient(90deg,rgba(13,92,46,0.12) 1px,transparent 1px);background-size:80px 80px;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 30%,transparent 100%)}
+.hero-glow-main{position:absolute;top:50%;left:55%;transform:translate(-50%,-50%);width:900px;height:700px;border-radius:50%;background:radial-gradient(ellipse,rgba(13,92,46,0.18) 0%,transparent 65%);pointer-events:none}
+.hero-glow2{position:absolute;bottom:-200px;left:-100px;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(34,197,94,0.06) 0%,transparent 60%);pointer-events:none}
+.hero-orb{position:absolute;right:8%;top:50%;transform:translateY(-50%);width:clamp(280px,35vw,520px);height:clamp(280px,35vw,520px);border-radius:50%;border:1px solid rgba(13,92,46,0.3);display:flex;align-items:center;justify-content:center;animation:orbPulse 6s ease-in-out infinite}
+@keyframes orbPulse{0%,100%{box-shadow:0 0 60px rgba(13,92,46,0.15),inset 0 0 60px rgba(13,92,46,0.08)}50%{box-shadow:0 0 100px rgba(13,92,46,0.25),inset 0 0 80px rgba(13,92,46,0.15)}}
+.hero-orb::before{content:'';position:absolute;width:75%;height:75%;border-radius:50%;border:1px solid rgba(34,197,94,0.15);animation:orbPulse 6s ease-in-out 1s infinite}
+.hero-orb::after{content:'';position:absolute;width:45%;height:45%;border-radius:50%;background:radial-gradient(circle,rgba(13,92,46,0.4) 0%,rgba(13,92,46,0.1) 60%,transparent 100%);animation:orbPulse 4s ease-in-out 2s infinite}
+.orb-dot{position:absolute;width:100%;height:100%;animation:orbitDot 8s linear infinite}
+.orb-dot::after{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:8px;height:8px;border-radius:50%;background:var(--green-glow);box-shadow:0 0 12px var(--green-glow),0 0 24px rgba(34,197,94,0.4)}
+@keyframes orbitDot{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.orb-stats{position:relative;z-index:2;text-align:center}
+.orb-num{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,5vw,58px);font-weight:600;color:var(--white);line-height:1;letter-spacing:-.02em}
+.orb-num span{color:var(--green-glow)}
+.orb-lbl{font-size:12px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-top:.4rem}
+.hero-content{position:relative;z-index:2;max-width:580px;opacity:0;animation:heroReveal .9s cubic-bezier(.22,1,.36,1) 2.2s forwards}
+@keyframes heroReveal{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--green-glow);margin-bottom:1.75rem}
+.hero-eyebrow::before{content:'';width:32px;height:1px;background:var(--green-glow)}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(44px,6.5vw,82px);font-weight:600;color:var(--white);line-height:1.05;letter-spacing:-.03em;margin-bottom:1.75rem}
+.hero h1 .line2{display:block;color:transparent;-webkit-text-stroke:1px rgba(200,212,200,0.5)}
+.hero h1 em{font-style:italic;color:var(--green-glow);-webkit-text-stroke:0}
+.hero-desc{font-size:15px;font-weight:400;color:var(--muted);line-height:1.85;margin-bottom:2.5rem;max-width:460px}
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap;align-items:center}
+.btn-green{background:var(--green);color:var(--white);padding:14px 30px;border-radius:var(--radius);font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;border:1px solid var(--green-mid);cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:10px}
+.btn-green:hover{background:var(--green-mid);transform:translateY(-2px);box-shadow:0 8px 30px rgba(13,92,46,0.35)}
+.btn-ghost{background:transparent;color:var(--cream2);padding:14px 30px;border-radius:var(--radius);font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;border:1px solid rgba(200,212,200,0.2);cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:10px}
+.btn-ghost:hover{border-color:rgba(200,212,200,0.5);background:rgba(200,212,200,0.05)}
+.hero-metrics{display:flex;gap:2.5rem;margin-top:3.5rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,0.06);flex-wrap:wrap}
+.hm{display:flex;flex-direction:column;gap:3px}
+.hm-val{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:600;color:var(--white);letter-spacing:-.02em;line-height:1}
+.hm-val span{color:var(--green-glow)}
+.hm-label{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.scroll-ind{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;animation:fadeUp .5s ease 3s both}
+.scroll-ind span{font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--muted2)}
+.scroll-line{width:1px;height:40px;background:linear-gradient(to bottom,var(--green-mid),transparent);animation:scrollLine 2s ease-in-out infinite}
+@keyframes scrollLine{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* ═══════════════════════════════
+   SHARED
+═══════════════════════════════ */
+section{padding:7rem 5%}
+.container{max-width:1180px;margin:0 auto}
+.section-eyebrow{font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--green-glow);margin-bottom:.75rem}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,4vw,52px);font-weight:600;color:var(--white);line-height:1.1;letter-spacing:-.02em;margin-bottom:1rem}
+.section-sub{font-size:15px;color:var(--muted);max-width:520px;line-height:1.85}
+.section-head{margin-bottom:4rem}
+.section-head.center{text-align:center}.section-head.center .section-sub{margin:0 auto}
+
+/* ═══ ABOUT ═══ */
+.about{background:var(--black2)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center}
+.about-vis{position:relative}
+.about-big-num{font-family:'Cormorant Garamond',serif;font-size:clamp(100px,16vw,200px);font-weight:600;color:transparent;-webkit-text-stroke:1px rgba(13,92,46,0.35);line-height:1;letter-spacing:-.04em;user-select:none}
+.about-cards-over{position:absolute;top:50%;left:50%;transform:translate(-30%,-50%);display:flex;flex-direction:column;gap:12px;width:220px}
+.acard{background:var(--black3);border:1px solid rgba(13,92,46,0.3);border-radius:var(--radius-lg);padding:1.1rem 1.25rem;display:flex;align-items:center;gap:12px}
+.acard-icon{width:40px;height:40px;border-radius:10px;background:var(--green-subtle);border:1px solid rgba(13,92,46,0.5);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.acard-t{font-size:13px;font-weight:700;color:var(--white)}
+.acard-s{font-size:11px;color:var(--muted)}
+.about-points{display:flex;flex-direction:column;gap:1.25rem;margin-top:2rem}
+.apoint{display:flex;gap:14px;align-items:flex-start}
+.apoint-line{width:2px;height:100%;background:var(--green);flex-shrink:0;border-radius:2px;min-height:16px;margin-top:4px}
+.apoint p{font-size:14.5px;color:var(--muted);line-height:1.8}
+
+/* ═══ SERVICES ═══ */
+.services{background:var(--black)}
+.srv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(13,92,46,0.2);border:1px solid rgba(13,92,46,0.2);border-radius:var(--radius-lg);overflow:hidden}
+.srv-card{background:var(--black);padding:2.25rem 2rem;transition:background .25s;position:relative;overflow:hidden}
+.srv-card::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--green-mid),transparent);transform:scaleX(0);transition:transform .35s}
+.srv-card:hover{background:var(--black2)}
+.srv-card:hover::before{transform:scaleX(1)}
+.srv-num{font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:400;color:rgba(13,92,46,0.3);line-height:1;margin-bottom:1.25rem}
+.srv-icon{font-size:28px;margin-bottom:1rem}
+.srv-title{font-size:15px;font-weight:700;color:var(--white);margin-bottom:.6rem;letter-spacing:.02em}
+.srv-desc{font-size:13.5px;color:var(--muted);line-height:1.8}
+.srv-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:1.1rem}
+.stag{font-size:10.5px;font-weight:700;letter-spacing:.06em;color:var(--green-glow);background:rgba(13,92,46,0.2);padding:3px 10px;border-radius:20px;border:1px solid rgba(13,92,46,0.35)}
+
+/* ═══ WHY ═══ */
+.why{background:var(--black2);position:relative;overflow:hidden}
+.why-accent{position:absolute;top:-150px;right:-150px;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(13,92,46,0.12) 0%,transparent 65%);pointer-events:none}
+.why-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;position:relative;z-index:1}
+.why-card{background:var(--black);border:1px solid rgba(13,92,46,0.25);border-radius:var(--radius-lg);padding:2rem 1.75rem;transition:border-color .25s,transform .25s}
+.why-card:hover{border-color:var(--green-mid);transform:translateY(-4px)}
+.why-num{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:600;color:var(--green-pale);-webkit-text-stroke:1px rgba(13,92,46,0.5);line-height:1;margin-bottom:1rem}
+.why-title{font-size:14px;font-weight:700;color:var(--white);margin-bottom:.5rem;letter-spacing:.04em;text-transform:uppercase}
+.why-text{font-size:13px;color:var(--muted);line-height:1.8}
+
+/* ═══ PROCESS ═══ */
+.process{background:var(--black)}
+.process-track{display:grid;grid-template-columns:repeat(5,1fr);gap:0;position:relative;margin-top:1rem}
+.process-track::before{content:'';position:absolute;top:28px;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,var(--green-mid) 20%,var(--green-mid) 80%,transparent);z-index:0}
+.pstep{text-align:center;position:relative;z-index:1;padding:0 .5rem}
+.pstep-circle{width:56px;height:56px;border-radius:50%;border:1px solid rgba(13,92,46,0.4);background:var(--black);display:flex;align-items:center;justify-content:center;margin:0 auto 1.1rem;font-size:20px;transition:all .3s;position:relative}
+.pstep-circle::after{content:attr(data-n);position:absolute;top:-8px;right:-8px;width:20px;height:20px;border-radius:50%;background:var(--green);color:var(--white);font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif}
+.pstep:hover .pstep-circle{border-color:var(--green-glow);box-shadow:0 0 20px rgba(34,197,94,0.2);background:var(--green-subtle)}
+.pstep-title{font-size:12.5px;font-weight:700;color:var(--white);margin-bottom:.35rem;letter-spacing:.05em;text-transform:uppercase}
+.pstep-text{font-size:12px;color:var(--muted);line-height:1.65}
+
+/* ═══════════════════════════════
+   PORTFOLIO — Professional Redesign
+═══════════════════════════════ */
+.portfolio{background:var(--black2);position:relative;overflow:hidden}
+.portfolio-accent{position:absolute;bottom:-200px;left:-100px;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(13,92,46,0.1) 0%,transparent 65%);pointer-events:none}
+
+/* Filter tabs */
+.pf-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:2.75rem}
+.pf-tab{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:8px 18px;border-radius:var(--radius);border:1px solid rgba(13,92,46,0.3);background:transparent;color:var(--muted);cursor:pointer;transition:all .2s;font-family:'Syne',sans-serif}
+.pf-tab:hover{border-color:rgba(13,92,46,0.6);color:var(--cream2)}
+.pf-tab.active{background:var(--green);border-color:var(--green-mid);color:var(--white)}
+
+/* ── Professional portfolio grid ── */
+/* Row 1: 3 equal cards at fixed height */
+.pf-row1{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+  margin-bottom:16px;
+}
+/* Row 2: large featured + 2 stacked */
+.pf-row2{
+  display:grid;
+  grid-template-columns:1.65fr 1fr;
+  gap:16px;
+  margin-bottom:16px;
+}
+.pf-row2-right{
+  display:grid;
+  grid-template-rows:1fr 1fr;
+  gap:16px;
+}
+/* Row 3: 4 equal small cards */
+.pf-row3{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:16px;
+  margin-bottom:2.5rem;
+}
+
+/* Unified card shell */
+.pf-card{
+  position:relative;
+  overflow:hidden;
+  border-radius:var(--radius-lg);
+  border:1px solid rgba(13,92,46,0.25);
+  background:var(--black3);
+  cursor:pointer;
+  transition:border-color .3s, transform .3s;
+}
+.pf-card:hover{
+  border-color:rgba(34,197,94,0.4);
+  transform:translateY(-3px);
+}
+
+/* Fixed-height variants */
+.pf-card.h-260{height:260px}
+.pf-card.h-320{height:320px}
+.pf-card.h-200{height:200px}
+.pf-card.h-180{height:180px}
+
+/* Image fills the card perfectly */
+.pf-card img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  display:block;
+  transition:transform .5s ease;
+}
+.pf-card:hover img{transform:scale(1.04)}
+
+/* Placeholder when image missing */
+.pf-ph{
+  width:100%;height:100%;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:10px;
+  background:linear-gradient(135deg,var(--black3) 0%,rgba(13,92,46,0.08) 100%);
+}
+.pf-ph-icon{
+  width:48px;height:48px;border-radius:12px;
+  background:rgba(13,92,46,0.2);
+  border:1px solid rgba(13,92,46,0.4);
+  display:flex;align-items:center;justify-content:center;font-size:20px;
+}
+.pf-ph-label{font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.06em}
+.pf-ph-num{font-family:'Cormorant Garamond',serif;font-size:11px;color:var(--muted2)}
+
+/* Hover overlay */
+.pf-hover-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(5,10,5,0.88) 0%,rgba(5,10,5,0.2) 50%,transparent 100%);
+  opacity:0;transition:opacity .35s;
+  display:flex;align-items:flex-end;
+  padding:1.25rem 1.5rem;
+}
+.pf-card:hover .pf-hover-overlay{opacity:1}
+.pf-hover-inner{
+  display:flex;align-items:flex-end;
+  justify-content:space-between;width:100%;gap:.75rem;
+}
+.pf-hover-cat{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--green-glow);margin-bottom:3px}
+.pf-hover-title{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600;color:var(--white);line-height:1.25}
+.pf-hover-arrow{
+  flex-shrink:0;width:36px;height:36px;border-radius:50%;
+  background:var(--green);border:1px solid var(--green-mid);
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;color:var(--white);
+  transition:background .2s;
+}
+.pf-hover-arrow:hover{background:var(--green-mid)}
+
+/* Label badge (always visible) */
+.pf-badge{
+  position:absolute;top:10px;left:10px;
+  background:rgba(5,10,5,0.75);
+  border:1px solid rgba(13,92,46,0.4);
+  border-radius:6px;
+  padding:4px 10px;
+  font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--green-glow);
+  backdrop-filter:blur(8px);
+}
+
+/* Bottom row */
+.pf-bottom{display:flex;align-items:center;justify-content:space-between;margin-top:0;flex-wrap:wrap;gap:1rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,0.05)}
+.pf-bottom-text p{font-size:14px;color:var(--muted);line-height:1.7}
+.pf-bottom-text strong{color:var(--white)}
+.pf-count-badge{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--green-glow);background:rgba(13,92,46,0.15);border:1px solid rgba(13,92,46,0.3);padding:8px 16px;border-radius:30px;margin-bottom:.6rem}
+.pf-count-badge::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--green-glow)}
+
+/* Responsive */
+@media(max-width:1100px){
+  .pf-row1{grid-template-columns:repeat(2,1fr)}
+  .pf-row3{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:768px){
+  .pf-row1,.pf-row2,.pf-row3{grid-template-columns:1fr}
+  .pf-row2-right{grid-template-rows:auto auto}
+  .pf-card.h-200,.pf-card.h-180{height:220px}
+}
+
+/* ═══ TESTIMONIALS ═══ */
+.testimonials{background:var(--black)}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.tcard{background:var(--black);border:1px solid rgba(13,92,46,0.25);border-radius:var(--radius-lg);padding:2rem;display:flex;flex-direction:column;gap:1.25rem;transition:border-color .25s}
+.tcard:hover{border-color:rgba(13,92,46,0.55)}
+.tcard-stars{font-size:14px;color:var(--green-glow);letter-spacing:3px}
+.tcard-quote{font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--cream2);line-height:1.75;font-style:italic}
+.tcard-author{display:flex;align-items:center;gap:12px;margin-top:auto;padding-top:1.1rem;border-top:1px solid rgba(255,255,255,0.05)}
+.ta-av{width:40px;height:40px;border-radius:50%;background:var(--green-subtle);border:1px solid rgba(13,92,46,0.5);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:var(--green-glow);flex-shrink:0}
+.ta-name{font-size:13px;font-weight:700;color:var(--white)}
+.ta-role{font-size:11px;color:var(--muted);margin-top:1px}
+
+/* ═══ ENQUIRY ═══ */
+.enquiry{background:var(--black2);position:relative;overflow:hidden}
+.enq-top-line{position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--green-mid) 30%,var(--green-glow) 50%,var(--green-mid) 70%,transparent)}
+.enq-grid{display:grid;grid-template-columns:1fr 1.6fr;gap:6rem;align-items:start;position:relative;z-index:1}
+.enq-left .section-sub{margin-bottom:2.5rem}
+.ci{display:flex;align-items:center;gap:14px;margin-bottom:1.25rem}
+.ci-ic{width:44px;height:44px;border-radius:12px;background:var(--green-subtle);border:1px solid rgba(13,92,46,0.5);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.ci-lbl{font-size:11px;color:var(--muted);letter-spacing:.06em;margin-bottom:2px}
+.ci-val{font-size:14px;font-weight:600;color:var(--white)}
+.wa-btn{display:inline-flex;align-items:center;gap:10px;background:#25D366;color:#fff;padding:13px 24px;border-radius:var(--radius);font-size:13px;font-weight:700;text-decoration:none;margin-top:2rem;transition:all .2s;letter-spacing:.04em;border:none}
+.wa-btn:hover{background:#1DB954;transform:translateY(-2px);box-shadow:0 8px 28px rgba(37,211,102,0.3)}
+.wa-btn svg{width:20px;height:20px;flex-shrink:0}
+.form-wrap{background:var(--black2);border:1px solid rgba(13,92,46,0.3);border-radius:var(--radius-lg);padding:2.5rem}
+.form-head{margin-bottom:2rem}
+.form-head h3{font-size:18px;font-weight:700;color:var(--white);margin-bottom:.3rem;letter-spacing:.02em}
+.form-head p{font-size:13px;color:var(--muted)}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:1rem}
+.field label{font-size:12px;font-weight:700;color:var(--cream2);letter-spacing:.06em;text-transform:uppercase}
+.req{color:var(--green-glow);margin-left:2px}
+input,select,textarea{width:100%;padding:11px 14px;font-size:14px;font-family:'Syne',sans-serif;border:1px solid rgba(13,92,46,0.3);border-radius:var(--radius);background:rgba(5,10,5,0.8);color:var(--white);outline:none;transition:border-color .2s,box-shadow .2s}
+input::placeholder,textarea::placeholder{color:var(--muted2)}
+input:focus,select:focus,textarea:focus{border-color:var(--green-mid);box-shadow:0 0 0 3px rgba(13,92,46,0.15)}
+select option{background:var(--black2);color:var(--white)}
+select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236B7D6B' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center;background-color:rgba(5,10,5,0.8);padding-right:38px}
+textarea{resize:vertical;min-height:90px;line-height:1.65}
+.cb-label-main{font-size:12px;font-weight:700;color:var(--cream2);letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:.7rem}
+.cb-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:1rem}
+.cb-item{display:flex;align-items:center;gap:9px;padding:9px 12px;border:1px solid rgba(13,92,46,0.3);border-radius:var(--radius);cursor:pointer;transition:all .15s;user-select:none}
+.cb-item:hover{border-color:var(--green-mid);background:var(--green-subtle)}
+.cb-item.ck{border-color:var(--green-mid);background:var(--green-subtle)}
+.cb-item input{width:14px;height:14px;accent-color:var(--green-glow);flex-shrink:0;cursor:pointer}
+.cb-item span{font-size:12.5px;color:var(--cream2)}
+.budg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:1rem}
+.bg-o{padding:9px 6px;text-align:center;border:1px solid rgba(13,92,46,0.3);border-radius:var(--radius);cursor:pointer;transition:all .15s}
+.bg-o:hover{border-color:var(--green-mid);background:var(--green-subtle)}
+.bg-o.sel{border-color:var(--green-glow);background:var(--green-subtle)}
+.bg-o span{font-size:12px;font-weight:700;color:var(--white);display:block}
+.bg-o small{font-size:10.5px;color:var(--muted)}
+.sub-btn{width:100%;background:var(--green);color:var(--white);border:none;border-radius:var(--radius);padding:14px;font-size:13px;font-weight:800;font-family:'Syne',sans-serif;cursor:pointer;letter-spacing:.1em;text-transform:uppercase;transition:all .2s;margin-top:.25rem;border:1px solid var(--green-mid)}
+.sub-btn:hover{background:var(--green-mid);transform:translateY(-1px);box-shadow:0 6px 24px rgba(13,92,46,0.4)}
+.f-note{font-size:11.5px;color:var(--muted);text-align:center;margin-top:.8rem;line-height:1.5}
+.success-wrap{display:none;text-align:center;padding:3.5rem 1rem}
+.succ-ic{width:64px;height:64px;border-radius:50%;background:var(--green-subtle);border:1px solid var(--green-mid);display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 1.25rem}
+.succ-t{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:var(--white);margin-bottom:.5rem}
+.succ-s{font-size:14px;color:var(--muted);line-height:1.8}
+
+/* ═══ FOOTER ═══ */
+footer{background:var(--black2);border-top:1px solid rgba(13,92,46,0.25);padding:5rem 5% 2.5rem}
+.footer-inner{max-width:1180px;margin:0 auto}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;padding-bottom:3.5rem;border-bottom:1px solid rgba(255,255,255,0.05)}
+.footer-logo{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:var(--white);margin-bottom:1.1rem;letter-spacing:-.02em}
+.footer-logo em{font-style:normal;color:var(--green-glow)}
+.footer-desc{font-size:13.5px;color:var(--muted);line-height:1.8;margin-bottom:1.75rem}
+.footer-socials{display:flex;gap:8px}
+.fsoc{width:36px;height:36px;border-radius:9px;background:rgba(13,92,46,0.15);border:1px solid rgba(13,92,46,0.35);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--muted);text-decoration:none;transition:all .2s}
+.fsoc:hover{background:var(--green-subtle);color:var(--white);border-color:var(--green-mid)}
+.fcol h4{font-size:11px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:var(--green-glow);margin-bottom:1.25rem}
+.fcol ul{list-style:none;display:flex;flex-direction:column;gap:.75rem}
+.fcol ul a{font-size:13.5px;color:var(--muted);text-decoration:none;transition:color .2s}
+.fcol ul a:hover{color:var(--white)}
+.footer-bot{display:flex;align-items:center;justify-content:space-between;padding-top:2rem;flex-wrap:wrap;gap:.75rem}
+.footer-copy{font-size:12.5px;color:var(--muted2)}
+.footer-legal{display:flex;gap:1.5rem}
+.footer-legal a{font-size:12.5px;color:var(--muted2);text-decoration:none;transition:color .2s}
+.footer-legal a:hover{color:var(--white)}
+
+/* ═══ FADE-UP ═══ */
+.fade-up{opacity:0;transform:translateY(32px);transition:opacity .65s ease,transform .65s ease}
+.fade-up.vis{opacity:1;transform:translateY(0)}
+.fade-up:nth-child(2){transition-delay:.1s}
+.fade-up:nth-child(3){transition-delay:.2s}
+.fade-up:nth-child(4){transition-delay:.3s}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:1100px){.srv-grid{grid-template-columns:repeat(2,1fr)}.why-grid{grid-template-columns:repeat(2,1fr)}.footer-top{grid-template-columns:1fr 1fr}.hero-orb{width:280px;height:280px}}
+@media(max-width:900px){.about-grid{grid-template-columns:1fr}.about-vis{display:none}.enq-grid{grid-template-columns:1fr}.enq-left{display:none}}
+@media(max-width:768px){nav .nav-links{display:none}.hamburger{display:flex}.hero-orb{display:none}.hero-content{max-width:100%}.srv-grid{grid-template-columns:1fr}.testi-grid{grid-template-columns:1fr}.process-track{grid-template-columns:1fr 1fr;gap:2rem}.process-track::before{display:none}section{padding:5rem 5%}.footer-top{grid-template-columns:1fr}.footer-bot{flex-direction:column;align-items:flex-start}}
+@media(max-width:480px){.why-grid{grid-template-columns:1fr}.process-track{grid-template-columns:1fr}.fg{grid-template-columns:1fr}.cb-grid{grid-template-columns:1fr}.budg-grid{grid-template-columns:1fr 1fr}.hero-metrics{gap:1.5rem}.pf-row1{grid-template-columns:1fr}.pf-row3{grid-template-columns:1fr 1fr}}
+@media(max-width:1024px){nav{padding:0 20px}.hero{flex-direction:column;justify-content:center;text-align:center;padding-top:100px}.hero-content{max-width:100%}.hero-actions{justify-content:center}.hero-metrics{justify-content:center}.about-grid{gap:3rem}}
+@media(max-width:900px){.srv-grid{grid-template-columns:1fr}.testi-grid{grid-template-columns:1fr}}
+@media(max-width:480px){h1{font-size:34px!important}.section-title{font-size:26px!important}.hero-desc{font-size:14px}.btn-green,.btn-ghost{width:100%;justify-content:center}}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════
+     LOADING SCREEN — clean fade only
+════════════════════════════════ -->
+<div id="loader">
+  <canvas id="lCanvas"></canvas>
+  <div class="l-center">
+    <div class="l-logo" id="lLogo">Marve<em>x</em></div>
+    <div class="l-tag">Strategy · Branding · Growth</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     NAVBAR
+════════════════════════════════ -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">Marve<em>x</em></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#portfolio">Work</a></li>
+    <li><a href="#testimonials">Clients</a></li>
+    <li><a href="#enquiry" class="nav-cta">Get Started</a></li>
+  </ul>
+  <div class="hamburger" id="ham" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" onclick="closeMenu()">About</a>
+  <a href="#services" onclick="closeMenu()">Services</a>
+  <a href="#process" onclick="closeMenu()">Process</a>
+  <a href="#portfolio" onclick="closeMenu()">Work</a>
+  <a href="#testimonials" onclick="closeMenu()">Clients</a>
+  <a href="#enquiry" onclick="closeMenu()"><button class="m-cta">Get Started</button></a>
+</div>
+
+<!-- ════════════════════════════════
+     HERO
+════════════════════════════════ -->
+<section class="hero" id="home">
+  <div class="hero-grid"></div>
+  <div class="hero-glow-main"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-orb">
+    <div class="orb-dot"></div>
+    <div class="orb-stats">
+      <div class="orb-num">20<span>+</span></div>
+      <div class="orb-lbl">Businesses Scaled</div>
+    </div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Digital Growth Partner</div>
+    <h1>Grow your brand.<br><span class="line2">Dominate the <em>digital</em></span><span class="line2">landscape.</span></h1>
+    <p class="hero-desc">We combine strategic marketing, powerful branding, and precision technical solutions to help your business scale with confidence and clarity.</p>
+    <div class="hero-actions">
+      <a href="#enquiry" class="btn-green">Start Your Project<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <a href="#services" class="btn-ghost">Explore Services</a>
+    </div>
+    <div class="hero-metrics">
+      <div class="hm"><div class="hm-val">98<span>%</span></div><div class="hm-label">Client Satisfaction</div></div>
+      <div class="hm"><div class="hm-val">5<span>yr</span></div><div class="hm-label">Industry Experience</div></div>
+      <div class="hm"><div class="hm-val">3x</div><div class="hm-label">Avg. Revenue Growth</div></div>
+    </div>
+  </div>
+  <div class="scroll-ind"><span>Scroll</span><div class="scroll-line"></div></div>
+</section>
+
+<!-- ════════════════════════════════
+     ABOUT
+════════════════════════════════ -->
+<section class="about" id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-vis fade-up">
+        <div class="about-big-num">5+</div>
+        <div class="about-cards-over">
+          <div class="acard"><div class="acard-icon">🎨</div><div><div class="acard-t">Creative Strategy</div><div class="acard-s">Brand-first thinking</div></div></div>
+          <div class="acard"><div class="acard-icon">⚙️</div><div><div class="acard-t">Tech Solutions</div><div class="acard-s">Built to perform</div></div></div>
+          <div class="acard"><div class="acard-icon">📈</div><div><div class="acard-t">Measurable Growth</div><div class="acard-s">Data-driven results</div></div></div>
+        </div>
+      </div>
+      <div class="fade-up">
+        <div class="section-eyebrow">Who We Are</div>
+        <h2 class="section-title">A consultancy built around your goals</h2>
+        <p style="font-size:15px;color:var(--muted);line-height:1.85;margin-bottom:1.5rem">Marvex is a digital consultancy that helps businesses grow through the intersection of bold strategy and reliable technical execution. We don't believe in cookie-cutter solutions — every engagement is built around your unique market position and growth objectives.</p>
+        <div class="about-points">
+          <div class="apoint"><div class="apoint-line"></div><p>Full-spectrum digital services under one roof — from brand identity to backend infrastructure</p></div>
+          <div class="apoint"><div class="apoint-line"></div><p>Transparent timelines, clear deliverables, and measurable outcomes on every project</p></div>
+          <div class="apoint"><div class="apoint-line"></div><p>A dedicated team that operates as your strategic partner, not just a vendor</p></div>
+          <div class="apoint"><div class="apoint-line"></div><p>Proven track record across 20+ businesses spanning diverse industries and markets</p></div>
+        </div>
+        <a href="#enquiry" class="btn-green" style="margin-top:2.25rem;display:inline-flex">Work With Us<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════
+     SERVICES
+════════════════════════════════ -->
+<section class="services" id="services">
+  <div class="container">
+    <div class="section-head center fade-up">
+      <div class="section-eyebrow">What We Do</div>
+      <h2 class="section-title">Services built to drive results</h2>
+      <p class="section-sub">Everything your business needs to grow its digital presence, acquire customers, and scale efficiently.</p>
+    </div>
+    <div class="srv-grid fade-up">
+      <div class="srv-card"><div class="srv-num">01</div><div class="srv-icon">📱</div><div class="srv-title">Social Media Management</div><div class="srv-desc">Strategic content creation, scheduling, and community management across all major platforms to grow your brand and engage your audience consistently.</div><div class="srv-tags"><span class="stag">Instagram</span><span class="stag">Facebook</span><span class="stag">LinkedIn</span><span class="stag">TikTok</span></div></div>
+      <div class="srv-card"><div class="srv-num">02</div><div class="srv-icon">✏️</div><div class="srv-title">Branding &amp; Identity</div><div class="srv-desc">Complete brand development — logo design, visual systems, brand guidelines, and messaging frameworks that make you instantly recognisable.</div><div class="srv-tags"><span class="stag">Logo Design</span><span class="stag">Brand Guide</span><span class="stag">Typography</span></div></div>
+      <div class="srv-card"><div class="srv-num">03</div><div class="srv-icon">🎯</div><div class="srv-title">Paid Advertising</div><div class="srv-desc">High-ROI paid campaigns across Google, Meta, and LinkedIn. Strategy, creative, optimisation, and detailed performance reporting included.</div><div class="srv-tags"><span class="stag">Google Ads</span><span class="stag">Meta Ads</span><span class="stag">Retargeting</span></div></div>
+      <div class="srv-card"><div class="srv-num">04</div><div class="srv-icon">💻</div><div class="srv-title">Website Development</div><div class="srv-desc">Beautiful, fast, and fully responsive websites built for performance and conversions — from landing pages to full e-commerce platforms.</div><div class="srv-tags"><span class="stag">WordPress</span><span class="stag">Shopify</span><span class="stag">React</span><span class="stag">Custom</span></div></div>
+      <div class="srv-card"><div class="srv-num">05</div><div class="srv-icon">🛠️</div><div class="srv-title">Technical Support</div><div class="srv-desc">Ongoing maintenance, bug fixes, security monitoring, and priority support to keep your digital systems running at peak performance.</div><div class="srv-tags"><span class="stag">Maintenance</span><span class="stag">Security</span><span class="stag">Bug Fixes</span></div></div>
+      <div class="srv-card"><div class="srv-num">06</div><div class="srv-icon">⚡</div><div class="srv-title">System Optimisation</div><div class="srv-desc">Audit and optimise your digital infrastructure — site speed, CRM workflows, automation systems, and third-party integrations.</div><div class="srv-tags"><span class="stag">Performance</span><span class="stag">Automation</span><span class="stag">CRM</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════
+     WHY US
+════════════════════════════════ -->
+<section class="why" id="why">
+  <div class="why-accent"></div>
+  <div class="container">
+    <div class="section-head center fade-up" style="position:relative;z-index:1">
+      <div class="section-eyebrow">Why Marvex</div>
+      <h2 class="section-title">Built for businesses that want to grow</h2>
+      <p class="section-sub">We combine strategic clarity with technical precision to deliver real, measurable impact for every client we partner with.</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-card fade-up"><div class="why-num">01</div><div class="why-title">Tailored Strategies</div><div class="why-text">No templates, no guesswork. Every plan is built around your specific goals, audience, and competitive landscape.</div></div>
+      <div class="why-card fade-up"><div class="why-num">02</div><div class="why-title">Full-Service Team</div><div class="why-text">Marketers, designers, and developers collaborating under one roof — cohesive, end-to-end execution with no gaps.</div></div>
+      <div class="why-card fade-up"><div class="why-num">03</div><div class="why-title">Transparent Reporting</div><div class="why-text">Clear dashboards and regular updates so you always know exactly what's happening and what it means for your business.</div></div>
+      <div class="why-card fade-up"><div class="why-num">04</div><div class="why-title">Results-Driven</div><div class="why-text">We measure success by the outcomes we deliver — traffic, leads, revenue, and growth that you can see and feel.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════
+     PROCESS
+════════════════════════════════ -->
+<section class="process" id="process">
+  <div class="container">
+    <div class="section-head center fade-up">
+      <div class="section-eyebrow">How We Work</div>
+      <h2 class="section-title">A clear process from day one</h2>
+      <p class="section-sub">Structured, transparent, and built for results. Every project follows a proven framework.</p>
+    </div>
+    <div class="process-track fade-up">
+      <div class="pstep"><div class="pstep-circle" data-n="1">💬</div><div class="pstep-title">Discovery</div><div class="pstep-text">Understanding your business, goals, and competitive landscape</div></div>
+      <div class="pstep"><div class="pstep-circle" data-n="2">🗺️</div><div class="pstep-title">Strategy</div><div class="pstep-text">Building a tailored plan with clear milestones and KPIs</div></div>
+      <div class="pstep"><div class="pstep-circle" data-n="3">⚙️</div><div class="pstep-title">Execution</div><div class="pstep-text">Delivering with precision across all channels and systems</div></div>
+      <div class="pstep"><div class="pstep-circle" data-n="4">📊</div><div class="pstep-title">Review</div><div class="pstep-text">Analysing results and refining for maximum performance</div></div>
+      <div class="pstep"><div class="pstep-circle" data-n="5">🚀</div><div class="pstep-title">Scale</div><div class="pstep-text">Expanding what works to accelerate your growth trajectory</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════
+     PORTFOLIO — Professional Grid
+════════════════════════════════ -->
+<section class="portfolio" id="portfolio">
+  <div class="portfolio-accent"></div>
+  <div class="container" style="position:relative;z-index:1">
+
+    <!-- Header -->
+    <div class="section-head fade-up" style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:1.5rem;margin-bottom:2.5rem">
+      <div>
+        <div class="section-eyebrow">Our Work</div>
+        <h2 class="section-title" style="margin-bottom:.5rem">Projects that speak for themselves</h2>
+        <p class="section-sub">A selection of campaigns, brands, and digital experiences we've built for clients across industries.</p>
+      </div>
+      <a href="#enquiry" class="btn-ghost" style="flex-shrink:0;align-self:flex-end">Start Your Project →</a>
+    </div>
+
+    <!-- Filter tabs -->
+    
+
+    <!-- ── Row 1: 3 equal cards ── -->
+    <div class="pf-row1 fade-up">
+
+      <div class="pf-card h-260">
+        <img src="2.png" alt="Brand Identity Project" onerror="this.style.display='none'"/>
+        <div class="pf-ph">
+          <div class="pf-ph-icon">🎨</div>
+          
+          <div class="pf-ph-num">Project 01</div>
+        </div>
+        
+        <div class="pf-hover-overlay">
+          <div class="pf-hover-inner">
+            <div>
+              
+              
+            </div>
+            <a href="https://indiiserve.com"><div class="pf-hover-arrow">→</div></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="pf-card h-260">
+        <img src="3.png" alt="Social Media Campaign" onerror="this.style.display='none'"/>
+        <div class="pf-ph">
+          <div class="pf-ph-icon">📱</div>
+          
+          <div class="pf-ph-num">Project 02</div>
+        </div>
+        
+        <div class="pf-hover-overlay">
+          <div class="pf-hover-inner">
+            <div>
+              
+              
+            </div>
+            <a href="https://godgraceacademy.in"><div class="pf-hover-arrow">→</div></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="pf-card h-260">
+        <img src="4.png" alt="Web Development Project" onerror="this.style.display='none'"/>
+        <div class="pf-ph">
+          <div class="pf-ph-icon">💻</div>
+          
+          <div class="pf-ph-num">Project 03</div>
+        </div>
+        
+        <div class="pf-hover-overlay">
+          <div class="pf-hover-inner">
+            <div>
+              
+              
+            </div>
+            <a href="https://musclemanias.com"><div class="pf-hover-arrow">→</div></a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── Row 2: large featured + 2 stacked ── -->
+    <div class="pf-row2 fade-up">
+
+      <div class="pf-card h-320">
+        <img src="1.png" alt="Featured Paid Ads Campaign" onerror="this.style.display='none'"/>
+        <div class="pf-ph">
+          <div class="pf-ph-icon">🎯</div>
+          
+          <div class="pf-ph-num">Project 04 — Featured</div>
+        </div>
+        <a href="https://becsofficial.com"><div class="pf-hover-arrow">→</div></a>
+        <div class="pf-hover-overlay">
+          <div class="pf-hover-inner">
+            <div>
+              
+            </div>
+            <div class="pf-hover-arrow">→</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pf-row2-right">
+
+       
+
+        <div class="pf-card h-200">
+          <img src="6.png" alt="System Optimisation" onerror="this.style.display='none'"/>
+          <div class="pf-ph">
+            <div class="pf-ph-icon">⚡</div>
+            
+            <div class="pf-ph-num">Project 06</div>
+          </div>
+          
+          <div class="pf-hover-overlay">
+            <div class="pf-hover-inner">
+              <div>
+                
+              </div>
+              <a href="https://jmbiotech.in"><div class="pf-hover-arrow">→</div></a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── Row 3: 4 small equal cards ── -->
+    
+
+
+    
+
+    </div>
+
+    <!-- Bottom CTA -->
+    <div class="pf-bottom fade-up">
+      <div class="pf-bottom-text">
+        <div class="pf-count-badge">20+ Projects Delivered</div>
+        <p>These are just a few highlights. <strong>Every project is unique</strong> — built around the client's goals, audience, and industry.</p>
+      </div>
+      <a href="#enquiry" class="btn-green">Let's Build Yours<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ════════════════════════════════
+     TESTIMONIALS
+════════════════════════════════ -->
+<section class="testimonials" id="testimonials">
+  <div class="container">
+    <div class="section-head center fade-up">
+      <div class="section-eyebrow">Client Stories</div>
+      <h2 class="section-title">Real results, real businesses</h2>
+      <p class="section-sub">Here's what our clients say about working with Marvex.</p>
+    </div>
+    <div class="testi-grid">
+      <div class="tcard fade-up"><div class="tcard-stars">★★★★★</div><div class="tcard-quote">"Marvex transformed our digital presence completely. Traffic doubled in 3 months and our social media engagement reached levels we'd never seen before."</div><div class="tcard-author"><div class="ta-av">JM</div><div><div class="ta-name">Jayanta Moitra</div><div class="ta-role">Managing Director, JM Biotech PVT LTD</div></div></div></div>
+      <div class="tcard fade-up"><div class="tcard-stars">★★★★★</div><div class="tcard-quote">"Their paid advertising campaign delivered a 4x return on ad spend within the first month. Responsive, strategic, and genuinely data-driven — exactly what we needed."</div><div class="tcard-author"><div class="ta-av">AA</div><div><div class="ta-name">Arun Adhikary</div><div class="ta-role">Founder, Indiiserve AI</div></div></div></div>
+      <div class="tcard fade-up"><div class="tcard-stars">★★★★★</div><div class="tcard-quote">"From branding to website to ongoing support — Marvex handles everything. It's like having a full in-house digital team at a fraction of the cost."</div><div class="tcard-author"><div class="ta-av">BB</div><div><div class="ta-name">Biswadeep Banerjee</div><div class="ta-role">Founder, BECS</div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════
+     ENQUIRY
+════════════════════════════════ -->
+<section class="enquiry" id="enquiry">
+  <div class="enq-top-line"></div>
+  <div class="container">
+    <div class="enq-grid">
+      <div class="enq-left fade-up">
+        <div class="section-eyebrow">Get In Touch</div>
+        <h2 class="section-title">Let's build something great</h2>
+        <p class="section-sub">Tell us about your business and goals. We'll review your details and respond within 48 hours with a tailored plan.</p>
+        <div class="ci"><div class="ci-ic">📧</div><div><div class="ci-lbl">Email</div><div class="ci-val">office.marvex@gmail.com</div></div></div>
+        <div class="ci"><div class="ci-ic">📞</div><div><div class="ci-lbl">Phone</div><div class="ci-val">+91 81670 14019</div></div></div>
+        <div class="ci"><div class="ci-ic">📍</div><div><div class="ci-lbl">Location</div><div class="ci-val">Kolkata, West Bengal, India</div></div></div>
+        <a href="https://wa.me/918167014019?text=Hi%2C%20I'm%20interested%20in%20Marvex%20digital%20services!" class="wa-btn" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+          Chat on WhatsApp
+        </a>
+      </div>
+      <div class="fade-up">
+        <div class="form-wrap" id="formWrap">
+  <div class="form-head">
+    <h3>Send Us an Enquiry</h3>
+    <p>Fields marked <span style="color:var(--green-glow)">*</span> are required</p>
+  </div>
+
+  <div class="fg">
+    <div class="field">
+      <label>Full Name <span class="req">*</span></label>
+      <input type="text" id="f-name" required placeholder="Jane Smith">
+    </div>
+    <div class="field">
+      <label>Business Name <span class="req">*</span></label>
+      <input type="text" id="f-biz" required placeholder="Acme Co.">
+    </div>
+  </div>
+
+  <div class="fg">
+    <div class="field">
+      <label>Email Address <span class="req">*</span></label>
+      <input type="email" id="f-email" required placeholder="you@company.com">
+    </div>
+    <div class="field">
+      <label>Phone Number <span class="req">*</span></label>
+      <input type="tel" id="f-phone" required placeholder="+91 81670 14019">
+    </div>
+  </div>
+
+  <div class="fg">
+    <div class="field">
+      <label>Industry <span class="req">*</span></label>
+      <select id="f-ind" required>
+        <option value="">Select industry</option>
+        <option>E-commerce & Retail</option>
+        <option>Healthcare & Wellness</option>
+        <option>Education & Training</option>
+        <option>Food & Hospitality</option>
+        <option>Technology & SaaS</option>
+        <option>Finance & Legal</option>
+        <option>Real Estate</option>
+        <option>Other</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Business Stage <span class="req">*</span></label>
+      <select id="f-stage" required>
+        <option value="">Select stage</option>
+        <option>Pre-launch / Startup</option>
+        <option>Early stage (0–2 yrs)</option>
+        <option>Growing (2–5 yrs)</option>
+        <option>Established (5+ yrs)</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Website URL <span class="req">*</span></label>
+    <input type="url" id="f-web" required placeholder="https://yourwebsite.com">
+  </div>
+
+  <!-- SERVICES -->
+  <span class="cb-label-main">Services you're interested in <span class="req">*</span></span>
+  <div class="cb-grid" id="cbg">
+    <label class="cb-item"><input type="checkbox"><span>Social Media Management</span></label>
+    <label class="cb-item"><input type="checkbox"><span>Branding & Identity</span></label>
+    <label class="cb-item"><input type="checkbox"><span>Paid Advertising</span></label>
+    <label class="cb-item"><input type="checkbox"><span>Website Development</span></label>
+    <label class="cb-item"><input type="checkbox"><span>Technical Support</span></label>
+    <label class="cb-item"><input type="checkbox"><span>System Optimisation</span></label>
+    <label class="cb-item"><input type="checkbox"><span>SEO & Content Strategy</span></label>
+    <label class="cb-item"><input type="checkbox"><span>Not sure — need guidance</span></label>
+  </div>
+
+  <!-- DESCRIPTION -->
+  <div class="field">
+    <label>Project Description <span class="req">*</span></label>
+    <textarea id="f-desc" required placeholder="Tell us about your project"></textarea>
+  </div>
+
+  <!-- BUDGET -->
+  <span class="cb-label-main">Estimated Budget <span class="req">*</span></span>
+  <input type="hidden" id="f-budget" required>
+
+  <div class="budg-grid" id="budg">
+    <div class="bg-o" data-v="Under $500"><span>Under $500</span><small>Small scope</small></div>
+    <div class="bg-o" data-v="$500–$2,000"><span>$500–$2,000</span><small>Mid range</small></div>
+    <div class="bg-o" data-v="$2,000–$5,000"><span>$2,000–$5,000</span><small>Larger project</small></div>
+    <div class="bg-o" data-v="$5,000–$15,000"><span>$5,000–$15,000</span><small>Enterprise</small></div>
+    <div class="bg-o" data-v="$15,000+"><span>$15,000+</span><small>Full partnership</small></div>
+    <div class="bg-o" data-v="Discuss"><span>Let's discuss</span><small>Flexible</small></div>
+  </div>
+
+  <!-- TIMELINE -->
+  <div class="fg">
+    <div class="field">
+      <label>Timeline <span class="req">*</span></label>
+      <select id="f-tl" required>
+        <option value="">Select timeline</option>
+        <option>As soon as possible</option>
+        <option>Within 1 month</option>
+        <option>1–3 months</option>
+        <option>3–6 months</option>
+        <option>6+ months / Ongoing</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>How did you hear about us? <span class="req">*</span></label>
+      <select id="f-src" required>
+        <option value="">Select source</option>
+        <option>Google Search</option>
+        <option>Social Media</option>
+        <option>Referral</option>
+        <option>LinkedIn</option>
+        <option>WhatsApp</option>
+        <option>Other</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Anything else? <span class="req">*</span></label>
+    <textarea id="f-extra" required placeholder="Additional context..."></textarea>
+  </div>
+
+  <button class="sub-btn" onclick="submitForm()">Submit Enquiry →</button>
+
+  <div class="f-note">🔒 Your information is kept strictly confidential and used only to respond to your enquiry.</div>
+</div>
+        <div class="success-wrap" id="succWrap" style="background:var(--black2);border:1px solid rgba(13,92,46,0.3);border-radius:var(--radius-lg)">
+          <div class="succ-ic">✅</div>
+          <div class="succ-t">Enquiry Received!</div>
+          <div class="succ-s">Thank you for reaching out. Our team will review your details and respond within <strong style="color:var(--white)">48 hours</strong> with a tailored proposal.<br><br>Prefer a faster reply? Reach us on WhatsApp.</div>
+          <a href="https://wa.me/918167014019" class="wa-btn" target="_blank" rel="noopener" style="display:inline-flex;margin-top:1.75rem">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+            Chat on WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════
+     FOOTER
+════════════════════════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo">Marve<em>x</em></div>
+        <div class="footer-desc">A digital consultancy helping businesses grow through strategic marketing and reliable technical solutions. Your growth is our mission.</div>
+        <div class="footer-socials">
+          <a class="fsoc" href="#">f</a><a class="fsoc" href="#" style="font-style:italic">ig</a><a class="fsoc" href="#">in</a><a class="fsoc" href="#">X</a>
+        </div>
+      </div>
+      <div class="fcol"><h4>Services</h4><ul><li><a href="#services">Social Media</a></li><li><a href="#services">Branding</a></li><li><a href="#services">Paid Advertising</a></li><li><a href="#services">Web Development</a></li><li><a href="#services">Technical Support</a></li><li><a href="#services">System Optimisation</a></li></ul></div>
+      <div class="fcol"><h4>Company</h4><ul><li><a href="#about">About Us</a></li><li><a href="#process">Our Process</a></li><li><a href="#portfolio">Our Work</a></li><li><a href="#testimonials">Client Stories</a></li><li><a href="#enquiry">Contact</a></li></ul></div>
+      <div class="fcol"><h4>Contact</h4><ul><li><a href="mailto:office.marvex@gmail.com">office.marvex@gmail.com</a></li><li><a href="tel:+918167014019">+91 81670 14019</a></li><li><a href="#">Kolkata, India</a></li><li><a href="https://wa.me/918167014019" target="_blank" rel="noopener" style="color:#25D366!important">WhatsApp Us ↗️</a></li></ul></div>
+    </div>
+    <div class="footer-bot">
+      <div class="footer-copy">© 2026 Marvex Digital Consultancy. All rights reserved.</div>
+      <div class="footer-legal"><a href="#">Privacy Policy</a><a href="#">Terms of Service</a><a href="#">Cookie Policy</a></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════════
+   PARTICLE CANVAS SYSTEM
+═══════════════════════════════════════════ */
+(function(){
+  const canvas = document.getElementById('lCanvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [], raf;
+  const NUM = 90;
+  const GREEN = {r:34,g:197,b:94};
+
+  function resize(){
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  function rnd(min,max){return Math.random()*(max-min)+min}
+
+  class Particle {
+    constructor(){this.reset(true)}
+    reset(initial){
+      this.x = rnd(0, W);
+      this.y = initial ? rnd(0, H) : rnd(H*0.55, H);
+      this.size = rnd(0.5, 2.2);
+      this.baseAlpha = rnd(0.06, 0.45);
+      this.alpha = initial ? this.baseAlpha : 0;
+      this.speed = rnd(0.18, 0.55);
+      this.drift = rnd(-0.25, 0.25);
+      this.pulse = rnd(0, Math.PI*2);
+      this.pulseSpeed = rnd(0.008, 0.02);
+    }
+    update(){
+      this.y -= this.speed;
+      this.x += this.drift;
+      this.pulse += this.pulseSpeed;
+      this.alpha = this.baseAlpha * (0.6 + 0.4 * Math.sin(this.pulse));
+      if(this.y < -5 || this.x < -5 || this.x > W+5) this.reset(false);
+    }
+    draw(){
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(${GREEN.r},${GREEN.g},${GREEN.b},${this.alpha})`;
+      ctx.fill();
+    }
+  }
+
+  for(let i=0;i<NUM;i++) particles.push(new Particle());
+
+  function drawConnections(){
+    const DIST = 120;
+    for(let i=0;i<particles.length;i++){
+      for(let j=i+1;j<particles.length;j++){
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const d = Math.sqrt(dx*dx+dy*dy);
+        if(d < DIST){
+          const a = (1 - d/DIST) * 0.04;
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = `rgba(${GREEN.r},${GREEN.g},${GREEN.b},${a})`;
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      }
+    }
+  }
+
+  function loop(){
+    ctx.clearRect(0,0,W,H);
+    drawConnections();
+    particles.forEach(p=>{p.update();p.draw()});
+    raf = requestAnimationFrame(loop);
+  }
+  loop();
+
+  window._stopParticles = function(){cancelAnimationFrame(raf)};
+})();
+
+/* ═══════════════════════════════════════════
+   LOADER — clean fade out after 1.6s
+   No progress bar. Just logo + particles, then fade.
+═══════════════════════════════════════════ */
+document.body.style.overflow = 'hidden';
+
+setTimeout(function(){
+  const loader = document.getElementById('loader');
+  window._stopParticles && window._stopParticles();
+  loader.classList.add('fade-out');
+  loader.addEventListener('transitionend', function(){
+    loader.style.display = 'none';
+    document.body.style.overflow = '';
+  }, {once: true});
+}, 1600);
+
+/* ═══════════════════════════════════════════
+   NAVBAR SCROLL
+═══════════════════════════════════════════ */
+const nav = document.getElementById('navbar');
+window.addEventListener('scroll', ()=>{
+  nav.classList.toggle('scrolled', window.scrollY > 30);
+});
+
+/* ═══════════════════════════════════════════
+   MOBILE MENU
+═══════════════════════════════════════════ */
+function toggleMenu(){
+  const m = document.getElementById('mobileMenu');
+  m.style.display = m.style.display === 'flex' ? 'none' : 'flex';
+}
+function closeMenu(){
+  document.getElementById('mobileMenu').style.display = 'none';
+}
+
+/* ═══════════════════════════════════════════
+   PORTFOLIO TABS
+═══════════════════════════════════════════ */
+function filterTab(el, cat){
+  document.querySelectorAll('.pf-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+/* ═══════════════════════════════════════════
+   BUDGET SELECTOR
+═══════════════════════════════════════════ */
+document.querySelectorAll('.bg-o').forEach(o=>{
+  o.addEventListener('click',()=>{
+    document.querySelectorAll('.bg-o').forEach(x=>x.classList.remove('sel'));
+    o.classList.add('sel');
+  });
+});
+
+/* ═══════════════════════════════════════════
+   CHECKBOX ITEMS
+═══════════════════════════════════════════ */
+document.querySelectorAll('.cb-item').forEach(item=>{
+  item.addEventListener('click',()=>item.classList.toggle('ck'));
+});
+document.querySelectorAll("#budg .bg-o").forEach(el => {
+  el.addEventListener("click", () => {
+    document.querySelectorAll("#budg .bg-o").forEach(b => b.classList.remove("sel"));
+    el.classList.add("sel");
+    document.getElementById("f-budget").value = el.getAttribute("data-v");
+  });
+});
+
+/* ═══════════════════════════════════════════
+   FORM SUBMIT
+═══════════════════════════════════════════ */
+function submitForm(){
+
+  const name = document.getElementById('f-name').value.trim();
+  const biz  = document.getElementById('f-biz').value.trim();
+  const email= document.getElementById('f-email').value.trim();
+  const desc = document.getElementById('f-desc').value.trim();
+
+  const budget = document.getElementById("f-budget").value;
+  const servicesChecked = document.querySelectorAll("#cbg input:checked").length;
+
+  // 🔴 FULL VALIDATION
+  if(!name || !biz || !email || !desc){
+    alert('Please fill all required fields.');
+    return;
+  }
+
+  if (!budget) {
+    alert("Please select a budget");
+    return;
+  }
+
+  if (servicesChecked === 0) {
+    alert("Select at least one service");
+    return;
+  }
+
+  document.getElementById('formWrap').style.display='none';
+  const sw = document.getElementById('succWrap');
+  sw.style.display='block';
+  sw.style.padding='3.5rem 1rem';
+}
+
+/* ═══════════════════════════════════════════
+   SCROLL FADE-UP OBSERVER
+═══════════════════════════════════════════ */
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')});
+},{threshold:0.12});
+document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
+
+</script>
+<script>
+    function doOptions() {
+  return ContentService
+    .createTextOutput("")
+    .setMimeType(ContentService.MimeType.JSON)
+    .setHeader("Access-Control-Allow-Origin", "*")
+    .setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
+    .setHeader("Access-Control-Allow-Headers", "Content-Type");
+}
+document.querySelector(".sub-btn").addEventListener("click", async function (e) {
+  e.preventDefault();
+
+  const btn = this;
+  btn.innerText = "Submitting...";
+  btn.disabled = true;
+
+  // Collect services
+  const services = [...document.querySelectorAll("#cbg input:checked")]
+    .map(cb => cb.nextElementSibling.innerText)
+    .join(", ");
+
+  // Collect form data
+  const data = {
+    name: document.getElementById("f-name").value.trim(),
+    business: document.getElementById("f-biz").value.trim(),
+    email: document.getElementById("f-email").value.trim(),
+    phone: document.getElementById("f-phone").value.trim(),
+    industry: document.getElementById("f-ind").value,
+    stage: document.getElementById("f-stage").value,
+    website: document.getElementById("f-web").value.trim(),
+    services: services,
+    description: document.getElementById("f-desc").value.trim()
+  };
+
+  // Basic validation (no design change)
+  if (!data.name || !data.business || !data.email || !data.description) {
+    alert("Please fill all required fields");
+    btn.innerText = "Submit";
+    btn.disabled = false;
+    return;
+  }
+
+  try {
+    const res = await fetch("https://script.google.com/macros/s/AKfycbzCeniDLCE879IXOLW0e7UWfKS34rsfNECISSWs1kIbPgp9DoqHPtBQvJvH_D96StetBQ/exec", {
+      method: "POST",
+      mode: "no-cors",
+      body: JSON.stringify(data)
+    });
+
+    const result = await res.json();
+
+    if (result.status === "success") {
+
+      // Hide form
+      document.getElementById("formWrap").style.display = "none";
+
+      // Create success UI (uses your existing design style)
+      const successHTML = `
+        <div class="success-wrap" style="display:block">
+          <div class="succ-ic">✓</div>
+          <div class="succ-t">Enquiry Sent</div>
+          <div class="succ-s">
+            Thanks for reaching out. We'll get back to you within 48 hours.
+          </div>
+        </div>
+      `;
+
+      document.querySelector(".form-wrap").insertAdjacentHTML("afterend", successHTML);
+
+    } else {
+      throw new Error("Submission failed");
+    }
+
+  } catch (err) {
+    alert("Something went wrong. Please try again.");
+    btn.innerText = "Submit";
+    btn.disabled = false;
+  }
+});
+</script>
+</body>
+</html>
