@@ -940,7 +940,7 @@ footer{background:var(--black2);border-top:1px solid rgba(13,92,46,0.25);padding
       <div class="fcol"><h4>Contact</h4><ul><li><a href="mailto:office.marvex@gmail.com">office.marvex@gmail.com</a></li><li><a href="tel:+918167014019">+91 81670 14019</a></li><li><a href="#">Kolkata, India</a></li><li><a href="https://wa.me/918167014019" target="_blank" rel="noopener" style="color:#25D366!important">WhatsApp Us ↗️</a></li></ul></div>
     </div>
     <div class="footer-bot">
-      <div class="footer-copy">©️ 2026 Marvex Digital Consultancy. All rights reserved.</div>
+      <div class="footer-copy">© 2026 Marvex Digital Consultancy. All rights reserved.</div>
       <div class="footer-legal"><a href="#">Privacy Policy</a><a href="#">Terms of Service</a><a href="#">Cookie Policy</a></div>
     </div>
   </div>
@@ -1132,4 +1132,91 @@ function submitForm(){
 /* ═══════════════════════════════════════════
    SCROLL FADE-UP OBSERVER
 ═══════════════════════════════════════════ */
-const obs = new IntersectionObser
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')});
+},{threshold:0.12});
+document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
+
+</script>
+<script>
+    function doOptions() {
+  return ContentService
+    .createTextOutput("")
+    .setMimeType(ContentService.MimeType.JSON)
+    .setHeader("Access-Control-Allow-Origin", "*")
+    .setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
+    .setHeader("Access-Control-Allow-Headers", "Content-Type");
+}
+document.querySelector(".sub-btn").addEventListener("click", async function (e) {
+  e.preventDefault();
+
+  const btn = this;
+  btn.innerText = "Submitting...";
+  btn.disabled = true;
+
+  // Collect services
+  const services = [...document.querySelectorAll("#cbg input:checked")]
+    .map(cb => cb.nextElementSibling.innerText)
+    .join(", ");
+
+  // Collect form data
+  const data = {
+    name: document.getElementById("f-name").value.trim(),
+    business: document.getElementById("f-biz").value.trim(),
+    email: document.getElementById("f-email").value.trim(),
+    phone: document.getElementById("f-phone").value.trim(),
+    industry: document.getElementById("f-ind").value,
+    stage: document.getElementById("f-stage").value,
+    website: document.getElementById("f-web").value.trim(),
+    services: services,
+    description: document.getElementById("f-desc").value.trim()
+  };
+
+  // Basic validation (no design change)
+  if (!data.name || !data.business || !data.email || !data.description) {
+    alert("Please fill all required fields");
+    btn.innerText = "Submit";
+    btn.disabled = false;
+    return;
+  }
+
+  try {
+    const res = await fetch("https://script.google.com/macros/s/AKfycbzCeniDLCE879IXOLW0e7UWfKS34rsfNECISSWs1kIbPgp9DoqHPtBQvJvH_D96StetBQ/exec", {
+      method: "POST",
+      mode: "no-cors",
+      body: JSON.stringify(data)
+    });
+
+    const result = await res.json();
+
+    if (result.status === "success") {
+
+      // Hide form
+      document.getElementById("formWrap").style.display = "none";
+
+      // Create success UI (uses your existing design style)
+      const successHTML = `
+        <div class="success-wrap" style="display:block">
+          <div class="succ-ic">✓</div>
+          <div class="succ-t">Enquiry Sent</div>
+          <div class="succ-s">
+            Thanks for reaching out. We'll get back to you within 48 hours.
+          </div>
+        </div>
+      `;
+
+      document.querySelector(".form-wrap").insertAdjacentHTML("afterend", successHTML);
+
+    } else {
+      throw new Error("Submission failed");
+    }
+
+  } catch (err) {
+    alert("Something went wrong. Please try again.");
+    btn.innerText = "Submit";
+    btn.disabled = false;
+  }
+});
+</script>
+</body>
+</html>
