@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Privacy Policy — Marvex Digital Consultancy</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --black:#050A05;--black2:#0B130B;--black3:#111A11;
+  --green:#0D5C2E;--green-mid:#147A3B;--green-light:#1A9E4C;
+  --green-glow:#22C55E;--green-pale:#0D2E18;--green-subtle:#0A1F10;
+  --cream:#E8EDE8;--cream2:#C8D4C8;--muted:#6B7D6B;--muted2:#4A5A4A;
+  --white:#F2F7F2;--radius:10px;--radius-lg:16px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Syne',sans-serif;background:var(--black);color:var(--cream);line-height:1.6;overflow-x:hidden}
+
+/* ═══ NAVBAR ═══ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:0 5%;height:68px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(5,10,5,0.92);backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(13,92,46,0.25);
+}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:var(--white);text-decoration:none;letter-spacing:-.02em}
+.nav-logo em{font-style:normal;color:var(--green-glow)}
+.nav-links{display:flex;align-items:center;gap:2.25rem;list-style:none}
+.nav-links a{text-decoration:none;font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);transition:color .2s}
+.nav-links a:hover{color:var(--white)}
+.nav-cta{background:var(--green);color:var(--white)!important;padding:9px 22px;border-radius:var(--radius);letter-spacing:.04em!important;transition:background .2s!important;border:1px solid var(--green-mid)}
+.nav-cta:hover{background:var(--green-mid)!important}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px}
+.hamburger span{width:24px;height:1.5px;background:var(--cream);border-radius:2px}
+.mobile-menu{display:none;position:fixed;top:68px;left:0;right:0;background:var(--black2);border-bottom:1px solid rgba(13,92,46,0.3);padding:1.5rem 5%;flex-direction:column;gap:1rem;z-index:98}
+.mobile-menu a{text-decoration:none;font-size:14px;font-weight:600;color:var(--cream2);padding:.6rem 0;border-bottom:1px solid rgba(255,255,255,0.05);letter-spacing:.04em}
+.mobile-menu .m-cta{background:var(--green);color:var(--white);text-align:center;padding:13px;border-radius:var(--radius);border:none;font-size:14px;font-weight:600;font-family:'Syne',sans-serif;margin-top:.5rem;cursor:pointer;letter-spacing:.04em;text-transform:uppercase}
+
+/* ═══ HERO BANNER ═══ */
+.policy-hero{
+  padding:140px 5% 80px;
+  background:var(--black);
+  position:relative;
+  overflow:hidden;
+}
+.policy-hero-grid{
+  position:absolute;inset:0;
+  background-image:linear-gradient(rgba(13,92,46,0.1) 1px,transparent 1px),linear-gradient(90deg,rgba(13,92,46,0.1) 1px,transparent 1px);
+  background-size:80px 80px;
+  mask-image:radial-gradient(ellipse 70% 90% at 20% 50%,black 30%,transparent 100%);
+}
+.policy-hero-glow{
+  position:absolute;top:-100px;right:-100px;
+  width:600px;height:600px;border-radius:50%;
+  background:radial-gradient(circle,rgba(13,92,46,0.12) 0%,transparent 65%);
+  pointer-events:none;
+}
+.policy-hero .container{position:relative;z-index:2;max-width:860px;margin:0 auto}
+.breadcrumb{display:flex;align-items:center;gap:8px;margin-bottom:1.5rem}
+.breadcrumb a{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s}
+.breadcrumb a:hover{color:var(--white)}
+.breadcrumb-sep{color:var(--muted2);font-size:12px}
+.breadcrumb-cur{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--green-glow)}
+.policy-eyebrow{font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--green-glow);margin-bottom:.75rem;display:flex;align-items:center;gap:10px}
+.policy-eyebrow::before{content:'';width:28px;height:1px;background:var(--green-glow)}
+.policy-hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(40px,6vw,72px);font-weight:600;color:var(--white);line-height:1.05;letter-spacing:-.03em;margin-bottom:1.25rem}
+.policy-hero h1 em{font-style:italic;color:var(--green-glow)}
+.policy-meta{display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;margin-top:1.75rem;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,0.06)}
+.pmeta-item{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.pmeta-dot{width:6px;height:6px;border-radius:50%;background:var(--green-glow)}
+
+/* ═══ MAIN LAYOUT ═══ */
+.policy-body{
+  padding:5rem 5%;
+  background:var(--black2);
+  border-top:1px solid rgba(13,92,46,0.2);
+}
+.policy-layout{
+  max-width:1100px;margin:0 auto;
+  display:grid;grid-template-columns:260px 1fr;gap:5rem;
+  align-items:start;
+}
+
+/* ═══ SIDEBAR TOC ═══ */
+.toc{position:sticky;top:90px}
+.toc-label{font-size:10px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--green-glow);margin-bottom:1rem}
+.toc-list{list-style:none;display:flex;flex-direction:column;gap:0}
+.toc-list li a{
+  display:block;
+  font-size:12.5px;font-weight:600;color:var(--muted);
+  text-decoration:none;
+  padding:.55rem .85rem;
+  border-left:2px solid rgba(13,92,46,0.25);
+  letter-spacing:.03em;
+  transition:all .2s;
+  line-height:1.4;
+}
+.toc-list li a:hover{color:var(--white);border-left-color:var(--green-glow);background:rgba(13,92,46,0.08);border-radius:0 var(--radius) var(--radius) 0}
+.toc-list li a.active{color:var(--green-glow);border-left-color:var(--green-glow)}
+.toc-contact{margin-top:2rem;padding:1.25rem;background:var(--black3);border:1px solid rgba(13,92,46,0.3);border-radius:var(--radius-lg)}
+.toc-contact p{font-size:12px;color:var(--muted);line-height:1.7;margin-bottom:.85rem}
+.toc-contact a{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--green-glow);text-decoration:none;letter-spacing:.04em}
+.toc-contact a:hover{color:var(--white)}
+
+/* ═══ CONTENT ═══ */
+.policy-content{display:flex;flex-direction:column;gap:0}
+
+/* intro card */
+.intro-card{
+  background:var(--black3);
+  border:1px solid rgba(13,92,46,0.35);
+  border-radius:var(--radius-lg);
+  padding:2rem 2.25rem;
+  margin-bottom:3rem;
+  position:relative;
+  overflow:hidden;
+}
+.intro-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--green-mid) 30%,var(--green-glow) 60%,transparent);
+}
+.intro-card p{font-size:14.5px;color:var(--cream2);line-height:1.85}
+.intro-card strong{color:var(--white)}
+
+/* sections */
+.policy-section{
+  padding:3rem 0;
+  border-bottom:1px solid rgba(255,255,255,0.05);
+}
+.policy-section:last-child{border-bottom:none}
+.ps-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:10px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--green-glow);margin-bottom:.6rem;
+}
+.ps-num{
+  width:22px;height:22px;border-radius:50%;
+  background:rgba(13,92,46,0.3);border:1px solid rgba(34,197,94,0.3);
+  display:inline-flex;align-items:center;justify-content:center;
+  font-size:9px;font-weight:800;color:var(--green-glow);
+  flex-shrink:0;
+}
+.policy-section h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(22px,3vw,30px);font-weight:600;
+  color:var(--white);letter-spacing:-.02em;line-height:1.15;
+  margin-bottom:1.25rem;
+}
+.policy-section p{
+  font-size:14.5px;color:var(--muted);line-height:1.9;
+  margin-bottom:1rem;
+}
+.policy-section p:last-child{margin-bottom:0}
+.policy-section p strong{color:var(--cream2)}
+.policy-section a{color:var(--green-glow);text-decoration:none;border-bottom:1px solid rgba(34,197,94,0.3);transition:border-color .2s}
+.policy-section a:hover{border-color:var(--green-glow)}
+
+/* styled lists */
+.policy-list{
+  list-style:none;
+  display:flex;flex-direction:column;gap:.65rem;
+  margin:1rem 0;
+}
+.policy-list li{
+  display:flex;align-items:flex-start;gap:12px;
+  font-size:14px;color:var(--muted);line-height:1.75;
+}
+.policy-list li::before{
+  content:'';
+  width:6px;height:6px;border-radius:50%;
+  background:var(--green-glow);
+  flex-shrink:0;margin-top:8px;
+}
+.policy-list li strong{color:var(--cream2)}
+
+/* info boxes */
+.info-box{
+  background:rgba(13,92,46,0.1);
+  border:1px solid rgba(13,92,46,0.4);
+  border-radius:var(--radius);
+  padding:1.25rem 1.5rem;
+  margin:1.25rem 0;
+  font-size:13.5px;color:var(--cream2);line-height:1.8;
+}
+.info-box strong{color:var(--white);display:block;margin-bottom:.25rem}
+
+/* data table */
+.data-table{
+  width:100%;border-collapse:collapse;
+  margin:1.25rem 0;font-size:13px;
+}
+.data-table th{
+  text-align:left;padding:.75rem 1rem;
+  font-size:10.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--green-glow);
+  background:rgba(13,92,46,0.15);
+  border:1px solid rgba(13,92,46,0.3);
+}
+.data-table td{
+  padding:.75rem 1rem;
+  color:var(--muted);line-height:1.6;
+  border:1px solid rgba(255,255,255,0.06);
+  vertical-align:top;
+}
+.data-table td strong{color:var(--cream2)}
+.data-table tr:hover td{background:rgba(13,92,46,0.06)}
+
+/* highlight pill */
+.pill{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:10.5px;font-weight:700;letter-spacing:.06em;
+  color:var(--green-glow);
+  background:rgba(13,92,46,0.2);
+  border:1px solid rgba(13,92,46,0.4);
+  padding:3px 10px;border-radius:20px;
+  margin:2px;
+}
+
+/* contact card */
+.contact-card{
+  background:var(--black3);border:1px solid rgba(13,92,46,0.4);
+  border-radius:var(--radius-lg);padding:2rem;margin-top:1.5rem;
+  display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;
+}
+.cc-item{display:flex;align-items:flex-start;gap:12px}
+.cc-icon{
+  width:40px;height:40px;border-radius:10px;
+  background:var(--green-subtle);border:1px solid rgba(13,92,46,0.5);
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;flex-shrink:0;
+}
+.cc-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+.cc-val{font-size:13.5px;font-weight:600;color:var(--white)}
+.cc-val a{color:var(--green-glow);text-decoration:none;border:none}
+.cc-val a:hover{text-decoration:underline}
+
+/* ═══ FOOTER ═══ */
+footer{background:var(--black2);border-top:1px solid rgba(13,92,46,0.25);padding:5rem 5% 2.5rem}
+.footer-inner{max-width:1180px;margin:0 auto}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;padding-bottom:3.5rem;border-bottom:1px solid rgba(255,255,255,0.05)}
+.footer-logo{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:var(--white);margin-bottom:1.1rem;letter-spacing:-.02em}
+.footer-logo em{font-style:normal;color:var(--green-glow)}
+.footer-desc{font-size:13.5px;color:var(--muted);line-height:1.8;margin-bottom:1.75rem}
+.footer-socials{display:flex;gap:8px}
+.fsoc{width:36px;height:36px;border-radius:9px;background:rgba(13,92,46,0.15);border:1px solid rgba(13,92,46,0.35);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--muted);text-decoration:none;transition:all .2s}
+.fsoc:hover{background:var(--green-subtle);color:var(--white);border-color:var(--green-mid)}
+.fcol h4{font-size:11px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:var(--green-glow);margin-bottom:1.25rem}
+.fcol ul{list-style:none;display:flex;flex-direction:column;gap:.75rem}
+.fcol ul a{font-size:13.5px;color:var(--muted);text-decoration:none;transition:color .2s}
+.fcol ul a:hover{color:var(--white)}
+.footer-bot{display:flex;align-items:center;justify-content:space-between;padding-top:2rem;flex-wrap:wrap;gap:.75rem}
+.footer-copy{font-size:12.5px;color:var(--muted2)}
+.footer-legal{display:flex;gap:1.5rem}
+.footer-legal a{font-size:12.5px;color:var(--muted2);text-decoration:none;transition:color .2s}
+.footer-legal a:hover{color:var(--white)}
+.footer-legal a.active-page{color:var(--green-glow)}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:900px){
+  .policy-layout{grid-template-columns:1fr;gap:0}
+  .toc{display:none}
+  .contact-card{grid-template-columns:1fr}
+  .footer-top{grid-template-columns:1fr 1fr}
+}
+@media(max-width:768px){
+  nav .nav-links{display:none}
+  .hamburger{display:flex}
+  .footer-top{grid-template-columns:1fr}
+  .policy-hero h1{font-size:36px}
+  .data-table{font-size:12px}
+  .data-table th,.data-table td{padding:.5rem .65rem}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ NAVBAR ═══ -->
+<nav id="navbar">
+  <a href="index.html" class="nav-logo">Marve<em>x</em></a>
+  <ul class="nav-links">
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#services">Services</a></li>
+    <li><a href="index.html#process">Process</a></li>
+    <li><a href="index.html#portfolio">Work</a></li>
+    <li><a href="index.html#testimonials">Clients</a></li>
+    <li><a href="index.html#enquiry" class="nav-cta">Get Started</a></li>
+  </ul>
+  <div class="hamburger" id="ham" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html#about" onclick="closeMenu()">About</a>
+  <a href="index.html#services" onclick="closeMenu()">Services</a>
+  <a href="index.html#process" onclick="closeMenu()">Process</a>
+  <a href="index.html#portfolio" onclick="closeMenu()">Work</a>
+  <a href="index.html#testimonials" onclick="closeMenu()">Clients</a>
+  <a href="index.html#enquiry" onclick="closeMenu()"><button class="m-cta">Get Started</button></a>
+</div>
+
+<!-- ═══ HERO BANNER ═══ -->
+<div class="policy-hero">
+  <div class="policy-hero-grid"></div>
+  <div class="policy-hero-glow"></div>
+  <div class="container">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a>
+      <span class="breadcrumb-sep">›</span>
+      <span class="breadcrumb-cur">Privacy Policy</span>
+    </div>
+    <div class="policy-eyebrow">Legal</div>
+    <h1>Privacy <em>Policy</em></h1>
+    <div class="policy-meta">
+      <div class="pmeta-item"><div class="pmeta-dot"></div>Effective: 16 April 2026</div>
+      <div class="pmeta-item"><div class="pmeta-dot"></div>Last Updated: 16 April 2026</div>
+      <div class="pmeta-item"><div class="pmeta-dot"></div>Marvex Digital Consultancy</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ BODY ═══ -->
+<div class="policy-body">
+  <div class="policy-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="toc">
+      <div class="toc-label">On This Page</div>
+      <ul class="toc-list">
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#information-we-collect">Information We Collect</a></li>
+        <li><a href="#how-we-use">How We Use Information</a></li>
+        <li><a href="#sharing">Sharing & Disclosure</a></li>
+        <li><a href="#cookies">Cookies & Tracking</a></li>
+        <li><a href="#data-retention">Data Retention</a></li>
+        <li><a href="#security">Security</a></li>
+        <li><a href="#your-rights">Your Rights</a></li>
+        <li><a href="#third-party">Third-Party Links</a></li>
+        <li><a href="#children">Children's Privacy</a></li>
+        <li><a href="#changes">Changes to Policy</a></li>
+        <li><a href="#contact">Contact Us</a></li>
+      </ul>
+      <div class="toc-contact">
+        <p>Questions about this policy? We're happy to help.</p>
+        <a href="mailto:office.marvex@gmail.com">→ office.marvex@gmail.com</a>
+      </div>
+    </aside>
+
+    <!-- CONTENT -->
+    <main class="policy-content">
+
+      <!-- Intro card -->
+      <div class="intro-card">
+        <p>At <strong>Marvex Digital Consultancy</strong>, your privacy is important to us. This Privacy Policy explains how we collect, use, store, and protect your personal information when you visit our website, use our services, or interact with us in any capacity. By using our website or services, you agree to the practices described in this policy. Please read it carefully.</p>
+      </div>
+
+      <!-- 1. Overview -->
+      <div class="policy-section" id="overview">
+        <div class="ps-eyebrow"><div class="ps-num">01</div> Overview</div>
+        <h2>Who We Are &amp; What This Covers</h2>
+        <p>Marvex Digital Consultancy ("Marvex", "we", "us", or "our") is a digital consultancy based in Kolkata, West Bengal, India. We provide services including social media management, branding &amp; identity, paid advertising, website development, technical support, and system optimisation.</p>
+        <p>This Privacy Policy applies to:</p>
+        <ul class="policy-list">
+          <li>Our website at <strong>marvex.in</strong> and any associated subdomains</li>
+          <li>Information submitted through our contact and enquiry forms</li>
+          <li>Communications via email, phone, or WhatsApp related to our services</li>
+          <li>Data shared in the course of providing our professional services to clients</li>
+        </ul>
+        <div class="info-box">
+          <strong>Jurisdiction</strong>
+          This policy is governed by the laws of India, including applicable provisions of the Information Technology Act, 2000, and the Information Technology (Reasonable Security Practices and Procedures and Sensitive Personal Data or Information) Rules, 2011.
+        </div>
+      </div>
+
+      <!-- 2. Information We Collect -->
+      <div class="policy-section" id="information-we-collect">
+        <div class="ps-eyebrow"><div class="ps-num">02</div> Data Collection</div>
+        <h2>Information We Collect</h2>
+        <p>We collect information in two main ways: information you provide to us directly, and information collected automatically when you use our website.</p>
+
+        <p><strong>Information you provide directly:</strong></p>
+        <ul class="policy-list">
+          <li><strong>Enquiry form data:</strong> Full name, business name, email address, phone number, industry, business stage, website URL, and project details.</li>
+          <li><strong>Communication data:</strong> Messages you send via email, WhatsApp, or other channels.</li>
+          <li><strong>Client onboarding data:</strong> Business documentation, branding assets, social media credentials, and other materials shared during active engagements.</li>
+          <li><strong>Financial information:</strong> Billing details necessary to process payments, handled through secure third-party processors.</li>
+        </ul>
+
+        <p><strong>Information collected automatically:</strong></p>
+        <ul class="policy-list">
+          <li><strong>Usage data:</strong> Pages visited, time spent, referring URLs, and navigation patterns.</li>
+          <li><strong>Device &amp; technical data:</strong> IP address, browser type, operating system, screen resolution.</li>
+          <li><strong>Cookies &amp; similar technologies:</strong> See the Cookies section for full details.</li>
+        </ul>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Category</th>
+              <th>Examples</th>
+              <th>Source</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Identity</strong></td><td>Name, business name</td><td>You provide directly</td></tr>
+            <tr><td><strong>Contact</strong></td><td>Email, phone number</td><td>You provide directly</td></tr>
+            <tr><td><strong>Technical</strong></td><td>IP address, browser, device</td><td>Collected automatically</td></tr>
+            <tr><td><strong>Usage</strong></td><td>Pages visited, clicks, session duration</td><td>Collected automatically</td></tr>
+            <tr><td><strong>Project</strong></td><td>Brief, assets, credentials</td><td>You provide during engagement</td></tr>
+            <tr><td><strong>Financial</strong></td><td>Billing details</td><td>You provide directly</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 3. How We Use -->
+      <div class="policy-section" id="how-we-use">
+        <div class="ps-eyebrow"><div class="ps-num">03</div> Data Usage</div>
+        <h2>How We Use Your Information</h2>
+        <p>We use the information we collect only for legitimate business purposes. We will never sell your personal information.</p>
+        <ul class="policy-list">
+          <li><strong>To respond to enquiries:</strong> Processing your form submissions and contacting you with a tailored proposal or response within 48 hours.</li>
+          <li><strong>To deliver services:</strong> Executing the agreed scope of work for active clients, including campaign management, design, development, and reporting.</li>
+          <li><strong>To send relevant communications:</strong> Project updates, invoices, reports, and occasional service information. You may opt out at any time.</li>
+          <li><strong>To improve our website:</strong> Analysing usage data to optimise performance, fix issues, and enhance user experience.</li>
+          <li><strong>To comply with legal obligations:</strong> Meeting requirements under applicable Indian law and responding to lawful requests.</li>
+          <li><strong>To protect our business:</strong> Detecting and preventing fraud, abuse, or violations of our Terms of Service.</li>
+        </ul>
+        <div class="info-box">
+          <strong>Marketing communications</strong>
+          We do not send unsolicited marketing emails. If you are an existing client, we may occasionally share relevant updates about our services. You can unsubscribe from any such communication at any time by replying to the email or contacting us directly.
+        </div>
+      </div>
+
+      <!-- 4. Sharing -->
+      <div class="policy-section" id="sharing">
+        <div class="ps-eyebrow"><div class="ps-num">04</div> Disclosure</div>
+        <h2>Sharing &amp; Disclosure</h2>
+        <p>We do not sell, rent, or trade your personal information. We only share data in the following limited circumstances:</p>
+        <ul class="policy-list">
+          <li><strong>Service providers &amp; tools:</strong> Trusted third-party tools that help us operate — such as Google Workspace (email), Google Sheets (enquiry data), WhatsApp Business, and project management platforms. These providers are bound by their own privacy policies and cannot use your data for their own marketing purposes.</li>
+          <li><strong>Professional advisors:</strong> Lawyers, accountants, or auditors when required for legitimate professional purposes and under confidentiality obligations.</li>
+          <li><strong>Legal compliance:</strong> When required to disclose information by applicable law, court order, or government authority.</li>
+          <li><strong>Business transfers:</strong> In the event of a merger, acquisition, or sale of assets, your information may be transferred. We will notify you before your data becomes subject to a different privacy policy.</li>
+          <li><strong>With your consent:</strong> In any other circumstance, only with your explicit consent.</li>
+        </ul>
+        <p>When we share data with third-party service providers, we ensure appropriate data processing agreements are in place where required.</p>
+        <div class="info-box">
+          <strong>Client work confidentiality</strong>
+          All business information, assets, and data shared with us during an active client engagement are treated as strictly confidential. We do not disclose client project details, strategies, or materials to any third party without express written permission — except to subcontractors working directly on your project under confidentiality obligations.
+        </div>
+      </div>
+
+      <!-- 5. Cookies -->
+      <div class="policy-section" id="cookies">
+        <div class="ps-eyebrow"><div class="ps-num">05</div> Cookies</div>
+        <h2>Cookies &amp; Tracking Technologies</h2>
+        <p>Our website uses cookies and similar technologies to enhance your experience, understand how visitors use our site, and improve our offerings. A cookie is a small text file stored on your device.</p>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Cookie Type</th>
+              <th>Purpose</th>
+              <th>Duration</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Essential</strong></td><td>Required for the website to function correctly (e.g., navigation, form submission)</td><td>Session</td></tr>
+            <tr><td><strong>Analytics</strong></td><td>Understand how visitors interact with the site (e.g., pages visited, time on site)</td><td>Up to 2 years</td></tr>
+            <tr><td><strong>Performance</strong></td><td>Measure site speed and identify errors to improve user experience</td><td>Up to 1 year</td></tr>
+            <tr><td><strong>Preference</strong></td><td>Remember your settings and preferences for future visits</td><td>Up to 1 year</td></tr>
+          </tbody>
+        </table>
+
+        <p>You can control or disable cookies through your browser settings. Please note that disabling cookies may affect the functionality of our website. Most browsers allow you to:</p>
+        <ul class="policy-list">
+          <li>View what cookies are stored and delete them individually</li>
+          <li>Block third-party cookies entirely</li>
+          <li>Block all cookies from being set</li>
+          <li>Delete all cookies when you close your browser</li>
+        </ul>
+        <p>We do not currently respond to "Do Not Track" signals, as there is no industry-standard approach to honouring such signals.</p>
+      </div>
+
+      <!-- 6. Data Retention -->
+      <div class="policy-section" id="data-retention">
+        <div class="ps-eyebrow"><div class="ps-num">06</div> Retention</div>
+        <h2>Data Retention</h2>
+        <p>We retain your personal information only for as long as necessary to fulfil the purposes for which it was collected, or as required by applicable law.</p>
+        <ul class="policy-list">
+          <li><strong>Enquiry data:</strong> Retained for up to 24 months from submission, unless you become a client or request deletion earlier.</li>
+          <li><strong>Client project data:</strong> Retained for the duration of the engagement plus up to 3 years afterward for record-keeping and legal compliance purposes.</li>
+          <li><strong>Financial records:</strong> Retained for a minimum of 7 years as required by Indian financial regulations.</li>
+          <li><strong>Website analytics data:</strong> Retained in aggregate, anonymised form for up to 26 months.</li>
+          <li><strong>Communication records:</strong> Retained for up to 3 years from the last interaction.</li>
+        </ul>
+        <p>When data is no longer required, we securely delete or anonymise it so that it can no longer be associated with you.</p>
+      </div>
+
+      <!-- 7. Security -->
+      <div class="policy-section" id="security">
+        <div class="ps-eyebrow"><div class="ps-num">07</div> Security</div>
+        <h2>How We Protect Your Data</h2>
+        <p>We implement appropriate technical and organisational measures to protect your personal information against unauthorised access, loss, alteration, or disclosure. These include:</p>
+        <ul class="policy-list">
+          <li><strong>Encryption:</strong> All data transmitted between your browser and our website is encrypted using SSL/TLS technology.</li>
+          <li><strong>Access controls:</strong> Access to personal data is restricted to authorised team members who need it to do their jobs.</li>
+          <li><strong>Secure tooling:</strong> We use reputable, industry-standard platforms with their own robust security practices.</li>
+          <li><strong>Regular reviews:</strong> We periodically review our security practices and update them as needed.</li>
+        </ul>
+        <div class="info-box">
+          <strong>Important notice</strong>
+          While we take all reasonable measures to protect your information, no method of internet transmission or electronic storage is 100% secure. We cannot guarantee absolute security, and you provide information at your own risk. If you suspect unauthorised access to your information, please contact us immediately.
+        </div>
+      </div>
+
+      <!-- 8. Your Rights -->
+      <div class="policy-section" id="your-rights">
+        <div class="ps-eyebrow"><div class="ps-num">08</div> Your Rights</div>
+        <h2>Your Privacy Rights</h2>
+        <p>Depending on your location and applicable law, you may have the following rights regarding your personal information:</p>
+        <ul class="policy-list">
+          <li><strong>Right to access:</strong> Request a copy of the personal information we hold about you.</li>
+          <li><strong>Right to correction:</strong> Request that we correct any inaccurate or incomplete information.</li>
+          <li><strong>Right to deletion:</strong> Request that we delete your personal information, subject to certain legal exceptions.</li>
+          <li><strong>Right to withdraw consent:</strong> Where we rely on consent as a basis for processing, you may withdraw it at any time.</li>
+          <li><strong>Right to object:</strong> Object to processing of your data for direct marketing purposes.</li>
+          <li><strong>Right to data portability:</strong> Request that we transfer your data to you or another organisation in a structured, commonly used format.</li>
+        </ul>
+        <p>To exercise any of these rights, please contact us using the details in the Contact section below. We will respond to all legitimate requests within <strong>30 days</strong>. There is no charge for exercising these rights, unless requests are unfounded, excessive, or repetitive.</p>
+        <p>We may need to verify your identity before processing any request to protect your data from unauthorised disclosure.</p>
+
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:1rem">
+          <span class="pill">Access</span>
+          <span class="pill">Correction</span>
+          <span class="pill">Deletion</span>
+          <span class="pill">Portability</span>
+          <span class="pill">Objection</span>
+          <span class="pill">Withdraw Consent</span>
+        </div>
+      </div>
+
+      <!-- 9. Third-Party Links -->
+      <div class="policy-section" id="third-party">
+        <div class="ps-eyebrow"><div class="ps-num">09</div> External Links</div>
+        <h2>Third-Party Links &amp; Services</h2>
+        <p>Our website may contain links to third-party websites, including client websites we have developed, social media platforms, and tool providers. When you click on such links, you will leave our website and be subject to the privacy policy of that third-party site.</p>
+        <p>We are not responsible for the privacy practices or content of third-party websites. We encourage you to review the privacy policy of any external site you visit.</p>
+        <p>Third-party services we use or reference include:</p>
+        <ul class="policy-list">
+          <li>Google Workspace (email and document storage)</li>
+          <li>WhatsApp Business (client communication)</li>
+          <li>Meta (Facebook &amp; Instagram) for advertising services</li>
+          <li>Google Ads for paid advertising services</li>
+          <li>LinkedIn for professional and advertising services</li>
+        </ul>
+        <p>Each of these services operates under its own terms and privacy policy. We recommend reviewing their respective policies to understand how they handle your data.</p>
+      </div>
+
+      <!-- 10. Children -->
+      <div class="policy-section" id="children">
+        <div class="ps-eyebrow"><div class="ps-num">10</div> Minors</div>
+        <h2>Children's Privacy</h2>
+        <p>Our website and services are not directed at children under the age of 18. We do not knowingly collect personal information from children. If you are a parent or guardian and believe your child has provided us with personal information, please contact us immediately and we will take steps to delete such information from our systems.</p>
+        <p>If we discover that a child under 18 has submitted information through our website, we will promptly remove that information and take appropriate action.</p>
+      </div>
+
+      <!-- 11. Changes -->
+      <div class="policy-section" id="changes">
+        <div class="ps-eyebrow"><div class="ps-num">11</div> Updates</div>
+        <h2>Changes to This Policy</h2>
+        <p>We may update this Privacy Policy from time to time to reflect changes in our practices, services, legal requirements, or for other operational reasons. When we make material changes, we will:</p>
+        <ul class="policy-list">
+          <li>Update the "Last Updated" date at the top of this page</li>
+          <li>Notify active clients via email of any significant changes</li>
+          <li>Post a notice on our website if appropriate</li>
+        </ul>
+        <p>We encourage you to review this policy periodically to stay informed about how we protect your information. Your continued use of our website or services after any changes constitutes acceptance of the updated policy.</p>
+        <p>If you disagree with any changes to this policy, you should discontinue use of our website and contact us to request deletion of your data.</p>
+      </div>
+
+      <!-- 12. Contact -->
+      <div class="policy-section" id="contact">
+        <div class="ps-eyebrow"><div class="ps-num">12</div> Contact</div>
+        <h2>Contact Us</h2>
+        <p>If you have any questions, concerns, or requests regarding this Privacy Policy or our data practices, please don't hesitate to get in touch. We are committed to addressing your questions promptly and transparently.</p>
+        <div class="contact-card">
+          <div class="cc-item">
+            <div class="cc-icon">📧</div>
+            <div>
+              <div class="cc-label">Email</div>
+              <div class="cc-val"><a href="mailto:office.marvex@gmail.com">office.marvex@gmail.com</a></div>
+            </div>
+          </div>
+          <div class="cc-item">
+            <div class="cc-icon">📞</div>
+            <div>
+              <div class="cc-label">Phone</div>
+              <div class="cc-val"><a href="tel:+918167014019">+91 81670 14019</a></div>
+            </div>
+          </div>
+          <div class="cc-item">
+            <div class="cc-icon">📍</div>
+            <div>
+              <div class="cc-label">Location</div>
+              <div class="cc-val">Kolkata, West Bengal, India</div>
+            </div>
+          </div>
+          <div class="cc-item">
+            <div class="cc-icon">💬</div>
+            <div>
+              <div class="cc-label">WhatsApp</div>
+              <div class="cc-val"><a href="https://wa.me/918167014019" target="_blank" rel="noopener">Chat with us →</a></div>
+            </div>
+          </div>
+        </div>
+        <p style="margin-top:1.25rem">We aim to respond to all privacy-related enquiries within <strong>5 business days</strong>.</p>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo">Marve<em>x</em></div>
+        <div class="footer-desc">A digital consultancy helping businesses grow through strategic marketing and reliable technical solutions. Your growth is our mission.</div>
+        <div class="footer-socials">
+          <a class="fsoc" href="https://www.instagram.com/marvex.solutions?igsh=MTNrMnhlM2V2Y2R5NA%3D%3D&utm_source=qr" style="font-style:italic">ig</a>
+        </div>
+      </div>
+      <div class="fcol"><h4>Services</h4><ul><li><a href="index.html#services">Social Media</a></li><li><a href="index.html#services">Branding</a></li><li><a href="index.html#services">Paid Advertising</a></li><li><a href="index.html#services">Web Development</a></li><li><a href="index.html#services">Technical Support</a></li><li><a href="index.html#services">System Optimisation</a></li></ul></div>
+      <div class="fcol"><h4>Company</h4><ul><li><a href="index.html#about">About Us</a></li><li><a href="index.html#process">Our Process</a></li><li><a href="index.html#portfolio">Our Work</a></li><li><a href="index.html#testimonials">Client Stories</a></li><li><a href="index.html#enquiry">Contact</a></li></ul></div>
+      <div class="fcol"><h4>Contact</h4><ul><li><a href="mailto:office.marvex@gmail.com">office.marvex@gmail.com</a></li><li><a href="tel:+918167014019">+91 81670 14019</a></li><li><a href="#">Kolkata, India</a></li><li><a href="https://wa.me/918167014019" target="_blank" rel="noopener" style="color:#25D366!important">WhatsApp Us ↗️</a></li></ul></div>
+    </div>
+    <div class="footer-bot">
+      <div class="footer-copy">© 2026 Marvex Digital Consultancy. All rights reserved.</div>
+      <div class="footer-legal">
+        <a href="privacy-policy.html" class="active-page">Privacy Policy</a>
+        <a href="terms.html">Terms of Service</a>
+        <a href="cookies.html">Cookie Policy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+function toggleMenu(){
+  const m = document.getElementById('mobileMenu');
+  m.style.display = m.style.display === 'flex' ? 'none' : 'flex';
+}
+function closeMenu(){
+  document.getElementById('mobileMenu').style.display = 'none';
+}
+
+/* Active TOC highlight on scroll */
+const sections = document.querySelectorAll('.policy-section[id]');
+const tocLinks = document.querySelectorAll('.toc-list a');
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      tocLinks.forEach(link => link.classList.remove('active'));
+      const active = document.querySelector(`.toc-list a[href="#${entry.target.id}"]`);
+      if (active) active.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -60% 0px' });
+
+sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

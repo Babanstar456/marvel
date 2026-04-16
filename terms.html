@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Terms of Service — Marvex</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --black:#050A05;--black2:#0B130B;--black3:#111A11;
+  --green:#0D5C2E;--green-mid:#147A3B;--green-light:#1A9E4C;
+  --green-glow:#22C55E;--green-pale:#0D2E18;--green-subtle:#0A1F10;
+  --cream:#E8EDE8;--cream2:#C8D4C8;--muted:#6B7D6B;--muted2:#4A5A4A;
+  --white:#F2F7F2;--radius:10px;--radius-lg:16px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Syne',sans-serif;background:var(--black);color:var(--cream);line-height:1.6;overflow-x:hidden}
+
+/* NAVBAR */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:0 5%;height:68px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(5,10,5,0.92);backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(13,92,46,0.25);
+}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:var(--white);text-decoration:none;letter-spacing:-.02em}
+.nav-logo em{font-style:normal;color:var(--green-glow)}
+.nav-back{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-decoration:none;padding:8px 18px;border:1px solid rgba(13,92,46,0.3);border-radius:var(--radius);transition:all .2s}
+.nav-back:hover{color:var(--white);border-color:rgba(13,92,46,0.6)}
+
+/* PAGE WRAPPER */
+.page-wrap{max-width:820px;margin:0 auto;padding:120px 5% 80px}
+
+/* HERO BLOCK */
+.tos-hero{padding:3rem 0 3.5rem;border-bottom:1px solid rgba(13,92,46,0.25);margin-bottom:3.5rem}
+.tos-eyebrow{font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--green-glow);margin-bottom:.75rem}
+.tos-title{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,5vw,58px);font-weight:600;color:var(--white);letter-spacing:-.03em;line-height:1.05;margin-bottom:1.25rem}
+.tos-meta{display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap}
+.tos-meta-item{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted)}
+.tos-meta-dot{width:6px;height:6px;border-radius:50%;background:var(--green-glow);flex-shrink:0}
+.tos-meta-item strong{color:var(--cream2);font-weight:600}
+
+/* TABLE OF CONTENTS */
+.toc{background:var(--black2);border:1px solid rgba(13,92,46,0.3);border-radius:var(--radius-lg);padding:1.75rem 2rem;margin-bottom:3.5rem}
+.toc-title{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--green-glow);margin-bottom:1.1rem}
+.toc-list{list-style:none;display:flex;flex-direction:column;gap:.5rem;columns:2;column-gap:2rem}
+.toc-list li a{font-size:13px;color:var(--muted);text-decoration:none;transition:color .2s;display:flex;align-items:center;gap:8px}
+.toc-list li a:hover{color:var(--white)}
+.toc-num{font-family:'Cormorant Garamond',serif;font-size:14px;color:rgba(13,92,46,0.6);min-width:18px}
+
+/* SECTIONS */
+.tos-section{margin-bottom:3rem;scroll-margin-top:90px}
+.tos-section-num{font-family:'Cormorant Garamond',serif;font-size:13px;color:var(--green-glow);letter-spacing:.08em;margin-bottom:.35rem;display:block}
+.tos-section h2{font-family:'Cormorant Garamond',serif;font-size:clamp(22px,3vw,30px);font-weight:600;color:var(--white);letter-spacing:-.02em;line-height:1.15;margin-bottom:1.1rem}
+.tos-section p{font-size:14.5px;color:var(--muted);line-height:1.9;margin-bottom:1rem}
+.tos-section p:last-child{margin-bottom:0}
+
+/* LIST STYLES */
+.tos-list{list-style:none;display:flex;flex-direction:column;gap:.65rem;margin:1rem 0 1.1rem;padding-left:0}
+.tos-list li{font-size:14px;color:var(--muted);line-height:1.8;padding-left:1.4rem;position:relative}
+.tos-list li::before{content:'';position:absolute;left:0;top:.65em;width:5px;height:5px;border-radius:50%;background:rgba(13,92,46,0.7);border:1px solid var(--green-mid)}
+
+/* HIGHLIGHT BOX */
+.tos-highlight{background:var(--green-subtle);border:1px solid rgba(13,92,46,0.4);border-left:3px solid var(--green-mid);border-radius:var(--radius);padding:1.25rem 1.5rem;margin:1.25rem 0}
+.tos-highlight p{font-size:13.5px;color:var(--cream2);line-height:1.8;margin:0}
+.tos-highlight strong{color:var(--white);font-weight:700}
+
+/* DIVIDER */
+.tos-divider{height:1px;background:linear-gradient(90deg,rgba(13,92,46,0.3),transparent);margin:0 0 3rem}
+
+/* CONTACT BOX */
+.tos-contact{background:var(--black2);border:1px solid rgba(13,92,46,0.3);border-radius:var(--radius-lg);padding:2.25rem;text-align:center;margin-top:3.5rem}
+.tos-contact h3{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:var(--white);margin-bottom:.5rem}
+.tos-contact p{font-size:14px;color:var(--muted);margin-bottom:1.75rem;line-height:1.8}
+.tos-contact-links{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.btn-green{background:var(--green);color:var(--white);padding:12px 26px;border-radius:var(--radius);font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;border:1px solid var(--green-mid);transition:all .2s;display:inline-flex;align-items:center;gap:8px}
+.btn-green:hover{background:var(--green-mid)}
+.btn-ghost{background:transparent;color:var(--cream2);padding:12px 26px;border-radius:var(--radius);font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;border:1px solid rgba(200,212,200,0.2);transition:all .2s;display:inline-flex;align-items:center;gap:8px}
+.btn-ghost:hover{border-color:rgba(200,212,200,0.45);background:rgba(200,212,200,0.05)}
+
+/* FOOTER STRIP */
+.tos-footer{margin-top:4rem;padding-top:2rem;border-top:1px solid rgba(13,92,46,0.2);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.tos-footer p{font-size:12.5px;color:var(--muted2)}
+.tos-footer-links{display:flex;gap:1.25rem}
+.tos-footer-links a{font-size:12.5px;color:var(--muted2);text-decoration:none;transition:color .2s}
+.tos-footer-links a:hover{color:var(--white)}
+
+@media(max-width:600px){
+  .toc-list{columns:1}
+  .tos-meta{gap:1rem}
+  .tos-contact-links{flex-direction:column;align-items:center}
+  .tos-footer{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Marve<em>x</em></a>
+  <a href="index.html" class="nav-back">← Back to Home</a>
+</nav>
+
+<div class="page-wrap">
+
+  <!-- Hero -->
+  <div class="tos-hero">
+    <div class="tos-eyebrow">Legal</div>
+    <h1 class="tos-title">Terms of Service</h1>
+    <div class="tos-meta">
+      <div class="tos-meta-item"><div class="tos-meta-dot"></div>Effective: <strong>April 16, 2026</strong></div>
+      <div class="tos-meta-item"><div class="tos-meta-dot"></div>Last Updated: <strong>April 16, 2026</strong></div>
+      <div class="tos-meta-item"><div class="tos-meta-dot"></div>Jurisdiction: <strong>India</strong></div>
+    </div>
+  </div>
+
+  <!-- Intro -->
+  <div class="tos-section">
+    <p>Please read these Terms of Service carefully before engaging with or purchasing any services from Marvex Digital Consultancy ("Marvex", "we", "us", or "our"). By proceeding with any service agreement, enquiry, or payment, you ("Client", "you") confirm that you have read, understood, and agreed to be bound by these terms.</p>
+    <div class="tos-highlight">
+      <p><strong>Summary:</strong> These terms govern the relationship between Marvex and any individual or business that engages our services. They define our responsibilities to you, your responsibilities to us, and how we handle disputes, payments, and intellectual property.</p>
+    </div>
+  </div>
+
+  <!-- Table of Contents -->
+  <div class="toc">
+    <div class="toc-title">Contents</div>
+    <ul class="toc-list">
+      <li><a href="#s1"><span class="toc-num">01</span> Services Offered</a></li>
+      <li><a href="#s2"><span class="toc-num">02</span> Engagement & Agreements</a></li>
+      <li><a href="#s3"><span class="toc-num">03</span> Fees & Payments</a></li>
+      <li><a href="#s4"><span class="toc-num">04</span> Refund Policy</a></li>
+      <li><a href="#s5"><span class="toc-num">05</span> Intellectual Property</a></li>
+      <li><a href="#s6"><span class="toc-num">06</span> Client Responsibilities</a></li>
+      <li><a href="#s7"><span class="toc-num">07</span> Confidentiality</a></li>
+      <li><a href="#s8"><span class="toc-num">08</span> Limitation of Liability</a></li>
+      <li><a href="#s9"><span class="toc-num">09</span> Termination</a></li>
+      <li><a href="#s10"><span class="toc-num">10</span> Governing Law</a></li>
+      <li><a href="#s11"><span class="toc-num">11</span> Amendments</a></li>
+      <li><a href="#s12"><span class="toc-num">12</span> Contact Us</a></li>
+    </ul>
+  </div>
+
+  <!-- Section 1 -->
+  <div class="tos-section" id="s1">
+    <span class="tos-section-num">01</span>
+    <h2>Services Offered</h2>
+    <p>Marvex provides digital consultancy and marketing services including, but not limited to, the following:</p>
+    <ul class="tos-list">
+      <li>Social Media Management — content creation, scheduling, community engagement, and platform strategy</li>
+      <li>Branding & Identity — logo design, visual systems, brand guidelines, and messaging frameworks</li>
+      <li>Paid Advertising — campaign strategy, creative, optimisation, and reporting across Google, Meta, and LinkedIn</li>
+      <li>Website Development — responsive web design and development for landing pages, e-commerce, and custom platforms</li>
+      <li>Technical Support — ongoing maintenance, security monitoring, and bug resolution</li>
+      <li>System Optimisation — performance audits, CRM workflows, automation, and third-party integrations</li>
+    </ul>
+    <p>The specific scope of services, deliverables, and timelines will be outlined in a separate Scope of Work ("SOW") or Service Agreement agreed upon prior to commencement of work.</p>
+  </div>
+
+  <div class="tos-divider"></div>
+
+  <!-- Section 2 -->
+  <div class="tos-section" id="s2">
+    <span class="tos-section-num">02</span>
+    <h2>Engagement & Agreements</h2>
+    <p>An engagement with Marvex is formalised when both parties have agreed in writing to a Scope of Work, proposal, or service contract, and an initial payment has been received where applicable.</p>
+    <ul class="tos-list">
+      <li>All project requirements, deliverables, timelines, and fees will be specified in a written agreement or proposal</li>
+      <li>Verbal agreements do not constitute a binding engagement</li>
+      <li>Any changes to the agreed scope must be submitted in writing and may result in revised timelines or additional fees</li>
+      <li>Marvex reserves the right to decline any engagement at its sole discretion, without obligation to provide a reason</li>
+    </ul>
+    <div class="tos-highlight">
+      <p><strong>Scope Changes:</strong> Any additions to the original project scope — including extra revisions, new features, or additional platforms — will be treated as a separate engagement and quoted accordingly. We will always seek your approval before proceeding with out-of-scope work.</p>
+    </div>
+  </div>
+
+  <div class="tos-divider"></div>
+
+  <!-- Section 3 -->
+  <div class="tos-section" id="s3">
+    <span class="tos-section-num">03</span>
+    <h2>Fees & Payments</h2>
+    <p>All fees are agreed upon prior to commencement of work and outlined in the project proposal or service agreement. Marvex operates on the following payment terms:</p>
+    <ul class="tos-list">
+      <li>A non-refundable deposit (typically 50% of the project value) is required before any work begins</li>
+      <li>The remaining balance is due upon project completion and prior to the final handover of deliverables</li>
+      <li>Retainer-based services are billed monthly in advance</li>
+      <li>Invoices are payable within 7 days of issue unless otherwise agreed in writing</li>
+      <li>Late payments may attract a late fee of 2% per week on the outstanding balance</li>
+      <li>All prices are exclusive of applicable taxes unless stated otherwise</li>
+    </ul>
+    <p>Payments can be made via bank transfer, UPI, or other methods agreed upon at the time of engagement. Marvex will issue a formal invoice for all payments received.</p>
+  </div>
+
+  <div class="tos-divider"></div>
+
+  <!-- Section 4 -->
+  <div class="tos-section" id="s4">
+    <span class="tos-section-num">04</span>
+    <h2>Refund Policy</h2>
+    <p>Given the nature of digital services, our refund policy is as follows:</p>
+    <ul class="tos-list">
+      <li>Initial deposits are non-refundable, as they secure our team's time and resources</li>
+      <li>If Marvex is unable to deliver the agreed services due to our own fault, a pro-rated refund may be issued at our discretion</li>
+      <li>No refunds will be issued for work already completed and approved by the client</li>
+      <li>Retainer fees are non-refundable once the billing period has commenced</li>
+    </ul>
+    <p>We are committed to delivering exceptional results and will always work to resolve any concerns before a refund is requested. Please contact us directly at <strong style="color:var(--cream2)">office.marvex@gmail.com</strong> if you are unsatisfied with our work.</p>
+  </div>
+
+  <div class="tos-divider"></div>
+
+  <!-- Section 5 -->
+  <div class="tos-section" id="s5">
+    <span class="tos-section-num">05</span>
+    <h2>Intellectual Property</h2>
+    <p>Intellectual property rights are transferred as follows upon receipt of full payment:</p>
+    <ul class="tos-list">
+      <li>All custom deliverables created exclusively for your project — including logos, brand assets, and website code — become your property upon full payment</li>
+      <li>Any third-party tools, plugins, stock assets, or software licences remain subject to their respective licence agreements</li>
+      <li>Marvex retains the right to display completed work in our portfolio and marketing materials unless the client explicitly requests otherwise in writing</li>
+      <li>Any pre-existing intellectual property of Marvex (frameworks, templates, internal tools) remains our property; clients receive a licence to use the output, not the underlying components</li>
+    </ul>
+    <div class="tos-highlight">
+      <p><strong>Portfolio Use:</strong> By engaging our services, you grant Marvex a non-exclusive licence to reference, display, and promote your project as part of our portfolio. If confidentiality is required, please notify us in writing prior to project commencement and we will honour that request.</p>
+    </div>
+  </div>
+
+  <div class="tos-divider"></div>
+
+  <!-- Section 6 -->
+  <div class="tos-section" id="s6">
+    <span class="tos-section-num">06</span>
+    <h2>Client Responsibilities</h2>
+    <p>A successful project requires active cooperation from both parties. You agree to:</p>
+    <ul class="tos-list">
+      <li>Provide accurate, complete, and timely information, materials, and feedback as requested</li>
+      <li>Respond to communications within a reasonable timeframe (typically 3–5 business days)</li>
+      <li>Ensure all content and materials supplied to Marvex are owned by you or properly licensed, and do not infringe any third-party rights</li>
+      <li>Obtain any necessary approvals, permissions, or licences required for your project</li>
+      <li>Notify Marvex promptly of any changes to your business, goals, or project requirements</li>
+    </ul>
+    <p>Project delays caused by the client's failure to provide timely approvals, content, or feedback may result in revised timelines and may incur additional fees. Marvex is not responsible for missed deadlines arising from client-side delays.</p>
+  </div>
+
+  <div class="tos-divider"></div>
+
+  <!-- Section 7 -->
+  <div class="tos-section" id="s7">
+    <span class="tos-section-num">07</span>
+    <h2>Confidentiality</h2>
+    <p>Both parties agree to maintain the confidentiality of any proprietary or sensitive information shared during the course of the engagement.</p>
+    <ul class="tos-list">
+      <li>Marvex will not disclose your business data, strategies, or personal information to any third party without your consent, except where required by law</li>
+      <li>All client information submitted via our enquiry form is used solely for the purpose of responding to your enquiry and managing your project</li>
+      <li>We do not sell, trade, or share client data with any external marketing parties</li>
+      <li>Confidentiality obligations survive the termination of any service agreement for a period of two (2) years</li>
+    </ul>
+  </div>
+
+  <div class="tos-divider"></div>
+
+  <!-- Section 8 -->
+  <div class="tos-section" id="s8">
+    <span class="tos-section-num">08</span>
+    <h2>Limitation of Liability</h2>
+    <p>To the fullest extent permitted by applicable law:</p>
+    <ul class="tos-list">
+      <li>Marvex's total liability to the client in connection with any services shall not exceed the total fees paid by the client in the three (3) months preceding the claim</li>
+      <li>Marvex is not liable for any indirect, incidental, special, or consequential damages, including but not limited to loss of revenue, loss of data, or loss of business</li>
+      <li>We do not guarantee specific results from marketing or advertising campaigns, as outcomes are influenced by market conditions, platform algorithms, and other factors beyond our control</li>
+      <li>Marvex is not responsible for any downtime, data loss, or security breaches caused by third-party platforms, hosting providers, or tools</li>
+    </ul>
+    <div class="tos-highlight">
+      <p><strong>No Guarantees:</strong> While we strive for exceptional results on every project, digital marketing outcomes depend on many external factors. We commit to our best professional effort and transparency — we do not guarantee specific rankings, follower counts, conversion rates, or revenue figures.</p>
+    </div>
+  </div>
+
+  <div class="tos-divider"></div>
+
+  <!-- Section 9 -->
+  <div class="tos-section" id="s9">
+    <span class="tos-section-num">09</span>
+    <h2>Termination</h2>
+    <p>Either party may terminate a service agreement under the following conditions:</p>
+    <ul class="tos-list">
+      <li>Either party may terminate a retainer or ongoing engagement with 30 days' written notice</li>
+      <li>Marvex may terminate an engagement immediately if the client breaches these Terms, fails to make payment, or engages in conduct that is unlawful, abusive, or harmful to our team</li>
+      <li>Upon termination, the client is responsible for payment of all work completed up to the termination date</li>
+      <li>Marvex will provide all completed deliverables upon receipt of any outstanding payments</li>
+      <li>Any advance payments for services not yet rendered will be handled on a case-by-case basis in good faith</li>
+    </ul>
+  </div>
+
+  <div class="tos-divider"></div>
+
+  <!-- Section 10 -->
+  <div class="tos-section" id="s10">
+    <span class="tos-section-num">10</span>
+    <h2>Governing Law</h2>
+    <p>These Terms of Service shall be governed by and construed in accordance with the laws of India. Any disputes arising from or in connection with these Terms shall be subject to the exclusive jurisdiction of the courts of Kolkata, West Bengal, India.</p>
+    <p>Both parties agree to attempt to resolve any disputes amicably through direct negotiation before pursuing formal legal proceedings. Marvex is committed to good-faith resolution of all client concerns.</p>
+  </div>
+
+  <div class="tos-divider"></div>
+
+  <!-- Section 11 -->
+  <div class="tos-section" id="s11">
+    <span class="tos-section-num">11</span>
+    <h2>Amendments</h2>
+    <p>Marvex reserves the right to update or amend these Terms of Service at any time. When changes are made:</p>
+    <ul class="tos-list">
+      <li>The updated Terms will be published on our website with a revised "Last Updated" date</li>
+      <li>Existing clients will be notified of material changes via email where applicable</li>
+      <li>Continued use of our services after the effective date of any amendment constitutes acceptance of the revised Terms</li>
+    </ul>
+    <p>We encourage clients to review these Terms periodically. If you have any questions about changes, please reach out to us directly.</p>
+  </div>
+
+  <div class="tos-divider"></div>
+
+  <!-- Section 12 -->
+  <div class="tos-section" id="s12">
+    <span class="tos-section-num">12</span>
+    <h2>Contact Us</h2>
+    <p>If you have any questions, concerns, or requests regarding these Terms of Service, please contact us through any of the following channels:</p>
+    <ul class="tos-list">
+      <li>Email: <strong style="color:var(--cream2)">office.marvex@gmail.com</strong></li>
+      <li>Phone: <strong style="color:var(--cream2)">+91 81670 14019</strong></li>
+      <li>WhatsApp: <strong style="color:var(--cream2)">+91 81670 14019</strong></li>
+      <li>Address: Kolkata, West Bengal, India</li>
+    </ul>
+  </div>
+
+  <!-- Contact CTA -->
+  <div class="tos-contact">
+    <h3>Questions about these terms?</h3>
+    <p>Our team is happy to clarify anything before you engage our services.<br>Reach out and we'll respond within 48 hours.</p>
+    <div class="tos-contact-links">
+      <a href="mailto:office.marvex@gmail.com" class="btn-green">Email Us →</a>
+      <a href="https://wa.me/918167014019" class="btn-ghost" target="_blank" rel="noopener">Chat on WhatsApp</a>
+    </div>
+  </div>
+
+  <!-- Footer strip -->
+  <div class="tos-footer">
+    <p>© 2026 Marvex Digital Consultancy. All rights reserved.</p>
+    <div class="tos-footer-links">
+      <a href="index.html">Home</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Cookie Policy</a>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
