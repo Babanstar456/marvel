@@ -904,7 +904,7 @@ footer{background:var(--black2);border-top:1px solid rgba(13,92,46,0.25);padding
     <textarea id="f-extra" required placeholder="Additional context..."></textarea>
   </div>
 
-  <button class="sub-btn" onclick="submitForm()">Submit Enquiry →</button>
+  <button class="sub-btn">Submit Enquiry →</button>
 
   <div class="f-note">🔒 Your information is kept strictly confidential and used only to respond to your enquiry.</div>
 </div>
@@ -1151,15 +1151,14 @@ document.querySelector(".sub-btn").addEventListener("click", async function (e) 
   e.preventDefault();
 
   const btn = this;
-  btn.innerText = "Submitting...";
-  btn.disabled = true;
 
   // Collect services
   const services = [...document.querySelectorAll("#cbg input:checked")]
     .map(cb => cb.nextElementSibling.innerText)
     .join(", ");
 
-  // Collect form data
+  const budget = document.getElementById("f-budget").value;
+
   const data = {
     name: document.getElementById("f-name").value.trim(),
     business: document.getElementById("f-biz").value.trim(),
@@ -1172,46 +1171,37 @@ document.querySelector(".sub-btn").addEventListener("click", async function (e) 
     description: document.getElementById("f-desc").value.trim()
   };
 
-  // Basic validation (no design change)
+  // Validation
   if (!data.name || !data.business || !data.email || !data.description) {
-    alert("Please fill all required fields");
-    btn.innerText = "Submit";
-    btn.disabled = false;
+    alert("Please fill all required fields.");
     return;
   }
+  if (!budget) { alert("Please select a budget."); return; }
+  if (!services) { alert("Please select at least one service."); return; }
+
+  btn.innerText = "Submitting...";
+  btn.disabled = true;
 
   try {
-    const res = await fetch("https://script.google.com/macros/s/AKfycbxOOmGP5GMqGpS7b4eVYJU0FEDylrZ5-r2v8Wb1o8sRJvQaRMYgBJ7TIbEQLDByh0cl/exec", {
+    // no-cors is required for Apps Script — we can't read the response,
+    // so we just trust it worked if no network error is thrown
+    await fetch("https://script.google.com/macros/s/AKfycbxOOmGP5GMqGpS7b4eVYJU0FEDylrZ5-r2v8Wb1o8sRJvQaRMYgBJ7TIbEQLDByh0cl/exec", {
       method: "POST",
       mode: "no-cors",
+      headers: { "Content-Type": "text/plain" },
       body: JSON.stringify(data)
     });
 
-    const result = await res.json();
+    // If we get here without throwing, assume success
+    document.getElementById("formWrap").style.display = "none";
+    document.getElementById("succWrap").style.display = "block";
+    document.getElementById("succWrap").style.padding = "3.5rem 1rem";
 
-    if (result.status === "success") {
-
-      // Hide form
-      document.getElementById("formWrap").style.display = "none";
-
-      // Create success UI (uses your existing design style)
-      const successHTML = `
-        <div class="success-wrap" style="display:block">
-          <div class="succ-ic">✓</div>
-          <div class="succ-t">Enquiry Sent</div>
-          <div class="succ-s">
-            Thanks for reaching out. We'll get back to you within 48 hours.
-          </div>
-        </div>
-      `;
-
-      document.querySelector(".form-wrap").insertAdjacentHTML("afterend", successHTML);
-
-    } else {
-      throw new Error("Submission failed");
-    }
-
-  } 
+  } catch (err) {
+    alert("Something went wrong. Please try WhatsApp or email us directly.");
+    btn.innerText = "Submit Enquiry →";
+    btn.disabled = false;
+  }
 });
 </script>
 </body>
