@@ -947,260 +947,130 @@ footer{background:var(--black2);border-top:1px solid rgba(13,92,46,0.25);padding
 </footer>
 
 <script>
-/* ═══════════════════════════════════════════
-   PARTICLE CANVAS SYSTEM
-═══════════════════════════════════════════ */
+/* ═══ PARTICLE CANVAS ═══ */
 (function(){
   const canvas = document.getElementById('lCanvas');
   const ctx = canvas.getContext('2d');
   let W, H, particles = [], raf;
   const NUM = 90;
   const GREEN = {r:34,g:197,b:94};
-
-  function resize(){
-    W = canvas.width = window.innerWidth;
-    H = canvas.height = window.innerHeight;
-  }
+  function resize(){ W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
   resize();
   window.addEventListener('resize', resize);
-
   function rnd(min,max){return Math.random()*(max-min)+min}
-
   class Particle {
     constructor(){this.reset(true)}
     reset(initial){
-      this.x = rnd(0, W);
-      this.y = initial ? rnd(0, H) : rnd(H*0.55, H);
-      this.size = rnd(0.5, 2.2);
-      this.baseAlpha = rnd(0.06, 0.45);
-      this.alpha = initial ? this.baseAlpha : 0;
-      this.speed = rnd(0.18, 0.55);
-      this.drift = rnd(-0.25, 0.25);
-      this.pulse = rnd(0, Math.PI*2);
-      this.pulseSpeed = rnd(0.008, 0.02);
+      this.x=rnd(0,W); this.y=initial?rnd(0,H):rnd(H*0.55,H);
+      this.size=rnd(0.5,2.2); this.baseAlpha=rnd(0.06,0.45);
+      this.alpha=initial?this.baseAlpha:0; this.speed=rnd(0.18,0.55);
+      this.drift=rnd(-0.25,0.25); this.pulse=rnd(0,Math.PI*2); this.pulseSpeed=rnd(0.008,0.02);
     }
     update(){
-      this.y -= this.speed;
-      this.x += this.drift;
-      this.pulse += this.pulseSpeed;
-      this.alpha = this.baseAlpha * (0.6 + 0.4 * Math.sin(this.pulse));
-      if(this.y < -5 || this.x < -5 || this.x > W+5) this.reset(false);
+      this.y-=this.speed; this.x+=this.drift; this.pulse+=this.pulseSpeed;
+      this.alpha=this.baseAlpha*(0.6+0.4*Math.sin(this.pulse));
+      if(this.y<-5||this.x<-5||this.x>W+5) this.reset(false);
     }
     draw(){
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.size, 0, Math.PI*2);
-      ctx.fillStyle = `rgba(${GREEN.r},${GREEN.g},${GREEN.b},${this.alpha})`;
-      ctx.fill();
+      ctx.beginPath(); ctx.arc(this.x,this.y,this.size,0,Math.PI*2);
+      ctx.fillStyle=`rgba(${GREEN.r},${GREEN.g},${GREEN.b},${this.alpha})`; ctx.fill();
     }
   }
-
   for(let i=0;i<NUM;i++) particles.push(new Particle());
-
   function drawConnections(){
-    const DIST = 120;
-    for(let i=0;i<particles.length;i++){
-      for(let j=i+1;j<particles.length;j++){
-        const dx = particles[i].x - particles[j].x;
-        const dy = particles[i].y - particles[j].y;
-        const d = Math.sqrt(dx*dx+dy*dy);
-        if(d < DIST){
-          const a = (1 - d/DIST) * 0.04;
-          ctx.beginPath();
-          ctx.moveTo(particles[i].x, particles[i].y);
-          ctx.lineTo(particles[j].x, particles[j].y);
-          ctx.strokeStyle = `rgba(${GREEN.r},${GREEN.g},${GREEN.b},${a})`;
-          ctx.lineWidth = 0.5;
-          ctx.stroke();
-        }
-      }
+    const DIST=120;
+    for(let i=0;i<particles.length;i++) for(let j=i+1;j<particles.length;j++){
+      const dx=particles[i].x-particles[j].x, dy=particles[i].y-particles[j].y;
+      const d=Math.sqrt(dx*dx+dy*dy);
+      if(d<DIST){ const a=(1-d/DIST)*0.04; ctx.beginPath(); ctx.moveTo(particles[i].x,particles[i].y); ctx.lineTo(particles[j].x,particles[j].y); ctx.strokeStyle=`rgba(${GREEN.r},${GREEN.g},${GREEN.b},${a})`; ctx.lineWidth=0.5; ctx.stroke(); }
     }
   }
-
-  function loop(){
-    ctx.clearRect(0,0,W,H);
-    drawConnections();
-    particles.forEach(p=>{p.update();p.draw()});
-    raf = requestAnimationFrame(loop);
-  }
+  function loop(){ ctx.clearRect(0,0,W,H); drawConnections(); particles.forEach(p=>{p.update();p.draw()}); raf=requestAnimationFrame(loop); }
   loop();
-
-  window._stopParticles = function(){cancelAnimationFrame(raf)};
+  window._stopParticles=function(){cancelAnimationFrame(raf)};
 })();
 
-/* ═══════════════════════════════════════════
-   LOADER — clean fade out after 1.6s
-   No progress bar. Just logo + particles, then fade.
-═══════════════════════════════════════════ */
-document.body.style.overflow = 'hidden';
-
+/* ═══ LOADER ═══ */
+document.body.style.overflow='hidden';
 setTimeout(function(){
-  const loader = document.getElementById('loader');
-  window._stopParticles && window._stopParticles();
+  const loader=document.getElementById('loader');
+  window._stopParticles&&window._stopParticles();
   loader.classList.add('fade-out');
-  loader.addEventListener('transitionend', function(){
-    loader.style.display = 'none';
-    document.body.style.overflow = '';
-  }, {once: true});
-}, 1600);
+  loader.addEventListener('transitionend',function(){ loader.style.display='none'; document.body.style.overflow=''; },{once:true});
+},1600);
 
-/* ═══════════════════════════════════════════
-   NAVBAR SCROLL
-═══════════════════════════════════════════ */
-const nav = document.getElementById('navbar');
-window.addEventListener('scroll', ()=>{
-  nav.classList.toggle('scrolled', window.scrollY > 30);
-});
+/* ═══ NAVBAR ═══ */
+const nav=document.getElementById('navbar');
+window.addEventListener('scroll',()=>{ nav.classList.toggle('scrolled',window.scrollY>30); });
 
-/* ═══════════════════════════════════════════
-   MOBILE MENU
-═══════════════════════════════════════════ */
-function toggleMenu(){
-  const m = document.getElementById('mobileMenu');
-  m.style.display = m.style.display === 'flex' ? 'none' : 'flex';
-}
-function closeMenu(){
-  document.getElementById('mobileMenu').style.display = 'none';
-}
+/* ═══ MOBILE MENU ═══ */
+function toggleMenu(){ const m=document.getElementById('mobileMenu'); m.style.display=m.style.display==='flex'?'none':'flex'; }
+function closeMenu(){ document.getElementById('mobileMenu').style.display='none'; }
 
-/* ═══════════════════════════════════════════
-   PORTFOLIO TABS
-═══════════════════════════════════════════ */
-function filterTab(el, cat){
-  document.querySelectorAll('.pf-tab').forEach(t=>t.classList.remove('active'));
-  el.classList.add('active');
-}
-
-/* ═══════════════════════════════════════════
-   BUDGET SELECTOR
-═══════════════════════════════════════════ */
-document.querySelectorAll('.bg-o').forEach(o=>{
-  o.addEventListener('click',()=>{
-    document.querySelectorAll('.bg-o').forEach(x=>x.classList.remove('sel'));
-    o.classList.add('sel');
+/* ═══ BUDGET SELECTOR ═══ */
+document.querySelectorAll("#budg .bg-o").forEach(el=>{
+  el.addEventListener("click",()=>{
+    document.querySelectorAll("#budg .bg-o").forEach(b=>b.classList.remove("sel"));
+    el.classList.add("sel");
+    document.getElementById("f-budget").value=el.getAttribute("data-v");
   });
 });
 
-/* ═══════════════════════════════════════════
-   CHECKBOX ITEMS
-═══════════════════════════════════════════ */
+/* ═══ CHECKBOX STYLING ═══ */
 document.querySelectorAll('.cb-item').forEach(item=>{
   item.addEventListener('click',()=>item.classList.toggle('ck'));
 });
-document.querySelectorAll("#budg .bg-o").forEach(el => {
-  el.addEventListener("click", () => {
-    document.querySelectorAll("#budg .bg-o").forEach(b => b.classList.remove("sel"));
-    el.classList.add("sel");
-    document.getElementById("f-budget").value = el.getAttribute("data-v");
-  });
-});
 
-/* ═══════════════════════════════════════════
-   FORM SUBMIT
-═══════════════════════════════════════════ */
-function submitForm(){
-
-  const name = document.getElementById('f-name').value.trim();
-  const biz  = document.getElementById('f-biz').value.trim();
-  const email= document.getElementById('f-email').value.trim();
-  const desc = document.getElementById('f-desc').value.trim();
-
-  const budget = document.getElementById("f-budget").value;
-  const servicesChecked = document.querySelectorAll("#cbg input:checked").length;
-
-  // 🔴 FULL VALIDATION
-  if(!name || !biz || !email || !desc){
-    alert('Please fill all required fields.');
-    return;
-  }
-
-  if (!budget) {
-    alert("Please select a budget");
-    return;
-  }
-
-  if (servicesChecked === 0) {
-    alert("Select at least one service");
-    return;
-  }
-
-  document.getElementById('formWrap').style.display='none';
-  const sw = document.getElementById('succWrap');
-  sw.style.display='block';
-  sw.style.padding='3.5rem 1rem';
-}
-
-/* ═══════════════════════════════════════════
-   SCROLL FADE-UP OBSERVER
-═══════════════════════════════════════════ */
-const obs = new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')});
-},{threshold:0.12});
+/* ═══ SCROLL OBSERVER ═══ */
+const obs=new IntersectionObserver(entries=>{ entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('vis'); }); },{threshold:0.12});
 document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
 
-</script>
-<script>
-    function doOptions() {
-  return ContentService
-    .createTextOutput("")
-    .setMimeType(ContentService.MimeType.JSON)
-    .setHeader("Access-Control-Allow-Origin", "*")
-    .setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
-    .setHeader("Access-Control-Allow-Headers", "Content-Type");
-}
-document.querySelector(".sub-btn").addEventListener("click", async function (e) {
+/* ═══ FORM SUBMIT — single handler, no conflicts ═══ */
+document.querySelector(".sub-btn").addEventListener("click", async function(e) {
   e.preventDefault();
+  e.stopImmediatePropagation();
 
   const btn = this;
 
-  // Collect services
+  const name    = document.getElementById("f-name").value.trim();
+  const biz     = document.getElementById("f-biz").value.trim();
+  const email   = document.getElementById("f-email").value.trim();
+  const desc    = document.getElementById("f-desc").value.trim();
+  const budget  = document.getElementById("f-budget").value;
   const services = [...document.querySelectorAll("#cbg input:checked")]
-    .map(cb => cb.nextElementSibling.innerText)
-    .join(", ");
+                    .map(cb => cb.nextElementSibling.innerText).join(", ");
 
-  const budget = document.getElementById("f-budget").value;
-
-  const data = {
-    name: document.getElementById("f-name").value.trim(),
-    business: document.getElementById("f-biz").value.trim(),
-    email: document.getElementById("f-email").value.trim(),
-    phone: document.getElementById("f-phone").value.trim(),
-    industry: document.getElementById("f-ind").value,
-    stage: document.getElementById("f-stage").value,
-    website: document.getElementById("f-web").value.trim(),
-    services: services,
-    description: document.getElementById("f-desc").value.trim()
-  };
-
-  // Validation
-  if (!data.name || !data.business || !data.email || !data.description) {
-    alert("Please fill all required fields.");
-    return;
-  }
-  if (!budget) { alert("Please select a budget."); return; }
-  if (!services) { alert("Please select at least one service."); return; }
+  if (!name || !biz || !email || !desc) { alert("Please fill all required fields."); return; }
+  if (!budget)    { alert("Please select a budget."); return; }
+  if (!services)  { alert("Please select at least one service."); return; }
 
   btn.innerText = "Submitting...";
-  btn.disabled = true;
+  btn.disabled  = true;
+
+  const data = {
+    name, business: biz, email,
+    phone:    document.getElementById("f-phone").value.trim(),
+    industry: document.getElementById("f-ind").value,
+    stage:    document.getElementById("f-stage").value,
+    website:  document.getElementById("f-web").value.trim(),
+    services, description: desc
+  };
 
   try {
-    // no-cors is required for Apps Script — we can't read the response,
-    // so we just trust it worked if no network error is thrown
-    await fetch("https://script.google.com/macros/s/AKfycbxOOmGP5GMqGpS7b4eVYJU0FEDylrZ5-r2v8Wb1o8sRJvQaRMYgBJ7TIbEQLDByh0cl/exec", {
-      method: "POST",
-      mode: "no-cors",
-      headers: { "Content-Type": "text/plain" },
-      body: JSON.stringify(data)
-    });
-
-    // If we get here without throwing, assume success
+    // no-cors required for Apps Script — response will be opaque, that's expected
+    await fetch(
+      "https://script.google.com/macros/s/AKfycbz22SYLpe2EhK1sa18X2BLbhe4GNHEbzcXSWbBIX0hnpbcmO2dqnXPYZ69715bfST_4/exec",
+      { method: "POST", mode: "no-cors", headers: {"Content-Type":"text/plain"}, body: JSON.stringify(data) }
+    );
+    // If fetch didn't throw, the request reached Apps Script — show success
     document.getElementById("formWrap").style.display = "none";
-    document.getElementById("succWrap").style.display = "block";
-    document.getElementById("succWrap").style.padding = "3.5rem 1rem";
-
-  } catch (err) {
-    alert("Something went wrong. Please try WhatsApp or email us directly.");
+    const sw = document.getElementById("succWrap");
+    sw.style.display  = "block";
+    sw.style.padding  = "3.5rem 1rem";
+  } catch(err) {
+    alert("Network error. Please try WhatsApp or email us directly.");
     btn.innerText = "Submit Enquiry →";
-    btn.disabled = false;
+    btn.disabled  = false;
   }
 });
 </script>
